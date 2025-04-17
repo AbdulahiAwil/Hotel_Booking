@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { Link } from 'react-router';
 
 function Header() {
-    const [header, setHeader] = useState(true)
+    const [header, setHeader] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const avater_url = null
 

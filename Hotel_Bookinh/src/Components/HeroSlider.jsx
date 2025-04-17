@@ -36,9 +36,11 @@ function HeroSlider() {
         {slides.map((slide, index) => {
             const { title, bg, btnText } = slide;
             return(
-            <SwiperSlide className='h-full bg-pink-400 relative justify-center items-center' key={index}>
-                <div className='z-20 text-white text-center'>
-                    <div className='uppercase tracking-[6px] mb-5'>Just Enjoy and relax</div>
+            <SwiperSlide className='h-full bg-amber-500 relative flex justify-center items-center' key={index}>
+                <div className='z-20 h-full flex justify-center items-center text-white text-center'>
+
+                    <div>Just Enjoy and Relax</div>
+
                 </div>
                 <div className='absolute top-0 w-full h-full'>
                     <img src={bg} className='object-cover h-full w-full' 
