@@ -4,6 +4,9 @@ import Header from "./Components/Header"
 import HomePage from "./Pages/HomePage"
 import RoomDetail from "./Pages/RoomDetail"
 import Restaurant from "./Pages/Restaurant"
+import SignUp from "./Pages/signUp"
+import SignIn from "./Pages/SignIn"
+
 
 
 function App() {
@@ -21,6 +24,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/room/:id" element={<RoomDetail />} />
           <Route path="restaurant" element={<Restaurant />} />
+          <Route path="Signup" element={<SignUp />} />
+          <Route path="Signin" element={<SignIn />} />
         </Routes>
       </main>
 
