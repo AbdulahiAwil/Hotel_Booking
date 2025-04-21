@@ -1,7 +1,46 @@
-import React from 'react'
-import Img2 from '../Images/heroSlider/2.jpg'
+import React, { useState } from 'react'
+import { signUp } from '../Lib/auth';
+
 function SignUp() {
-    
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+
+  const handleSubmit = async (event) =>{
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    if(password !== confirmPassword){
+      setError("Password do not match")
+      setIsLoading(false);
+      return
+    }
+
+    try {
+        await signUp(email, password, username)
+        setSuccess(true)
+  
+        
+      }catch (error) {
+  
+        console.error(error)
+        setError(error.message || "Failed to create account. Please try again")
+  
+      }finally{
+        setIsLoading(false)
+      }
+
+}
+
+
+
+
   return (
     <div className="min-h-screen relative flex items-center justify-center">
       <div className="absolute top-0 w-full h-full">
@@ -17,8 +56,14 @@ function SignUp() {
          {/* Form info */}
          <div className='bg-white/70 rounded-lg shadow-md p-8'>
             {/* Form */}
-
-            <form>
+            {
+            error && (
+              <div className='mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm'>
+                {error}
+              </div>
+            )
+          }
+            <form onSubmit={handleSubmit}>
             <div className='mb-6'>
               <label className='block text-yellow-800 text-sm font-semibold mb-2' htmlFor="email">
                 Email Address 
@@ -26,8 +71,8 @@ function SignUp() {
               <input type="email" id="email"
               className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
               placeholder='Email'
-            //   value={email}
-            //   onChange={(e)=> setEmail(e.target.value)}
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
               required
               />
             </div>
@@ -38,8 +83,8 @@ function SignUp() {
               <input type="username" id="username"
               className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
               placeholder='Username'
-            //   value={email}
-            //   onChange={(e)=> setEmail(e.target.value)}
+              value={username}
+              onChange={(e)=> setUsername(e.target.value)}
               required
               />
             </div>
@@ -50,8 +95,8 @@ function SignUp() {
               <input type="password" id="password"
               className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
               placeholder='Password'
-            //   value={email}
-            //   onChange={(e)=> setEmail(e.target.value)}
+              value={password}
+              onChange={(e)=> setPassword(e.target.value)}
               required
               />
             </div>
@@ -62,13 +107,16 @@ function SignUp() {
               <input type="password" id="password"
               className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
               placeholder='Confirm password'
-            //   value={email}
-            //   onChange={(e)=> setEmail(e.target.value)}
+              value={confirmPassword}
+              onChange={(e)=> setConfirmPassword(e.target.value)}
               required
               />
             </div>
+            <button className='w-full bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 transition duration-200 disabled:cursor-not-allowed disabled:bg-orange-400' disabled={isLoading}>
+            {isLoading ? 'Creating Account...' : 'Create Account'}
+            </button>
             </form>
-            <button className='w-full bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 transition duration-200 disabled:cursor-not-allowed disabled:bg-orange-400'>Create Account</button>
+            
          </div>
       </div>
     </div>
