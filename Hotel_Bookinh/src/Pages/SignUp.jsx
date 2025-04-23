@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { signUp } from '../Lib/auth';
 
 function SignUp() {
@@ -10,7 +11,7 @@ function SignUp() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-
+  const navigate = useNavigate()
   const handleSubmit = async (event) =>{
     event.preventDefault();
     setIsLoading(true);
@@ -25,6 +26,10 @@ function SignUp() {
     try {
         await signUp(email, password, username)
         setSuccess(true)
+
+        setTimeout(() => {
+          navigate("/signin");
+        }, 3000);
   
         
       }catch (error) {
@@ -36,6 +41,27 @@ function SignUp() {
         setIsLoading(false)
       }
 
+}
+
+if (success) {
+
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-yellow-800 px-4">
+      <div className="max-w-md w-full text-center">
+        <div className="bg-white rounded-lg shadow-md p-8">
+          <div className="text-yellow-800/10 text-5xl mb-4">✓</div>
+          <h2 className="text-2xl font-bold mb-2">Account Created!</h2>
+          <p className="text-gray-600 mb-4">
+            Your account has been created successfully. Please check your email for verification.
+          </p>
+          <p className="text-gray-500 text-sm">
+            Redirecting to sign in page in a few seconds...
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 

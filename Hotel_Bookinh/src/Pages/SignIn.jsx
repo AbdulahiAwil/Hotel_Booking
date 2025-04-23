@@ -1,6 +1,44 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
+import { signIn } from '../Lib/auth'
 function SignIn() {
+
+  const [email, setEmail] = useState('')
+
+  const [password, setPassword] = useState('')
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  // const [success, setSuccess] = useState(false)
+
+
+
+  // const authIfo = useAuth()
+  // console.log({ authIfo })
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event) => {
+
+    event.preventDefault();
+
+    setIsLoading(true)
+    setError(null)
+
+    
+    try {
+
+      await signIn(email, password);
+
+      navigate('/')
+
+    } catch (error) {
+      setError(error.message || "Failed to sign in . Please check your credentials.")
+      console.log("error", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
   return (
     <div className="min-h-screen relative flex items-center justify-center">
     <div className="absolute top-0 w-full h-full">
@@ -17,7 +55,7 @@ function SignIn() {
        <div className='bg-white/70 rounded-lg shadow-md p-8'>
           {/* Form */}
 
-          <form>
+          <form  onSubmit={handleSubmit}>
           <div className='mb-6'>
             <label className='block text-yellow-800 text-sm font-semibold mb-2' htmlFor="email">
               Email Address 
@@ -25,8 +63,8 @@ function SignIn() {
             <input type="email" id="email"
             className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
             placeholder='Email'
-          //   value={email}
-          //   onChange={(e)=> setEmail(e.target.value)}
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
             required
             />
           </div>
@@ -38,14 +76,24 @@ function SignIn() {
             <input type="password" id="password"
             className='w-full px-4 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-700' 
             placeholder='Password'
-          //   value={email}
-          //   onChange={(e)=> setEmail(e.target.value)}
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
             required
+           
             />
           </div>
-         
+          <button className='w-full bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 transition duration-200 disabled:cursor-not-allowed disabled:bg-orange-400' disabled={isLoading}>
+          {isLoading ? 'Signing in...' : 'Sing In'}
+          </button>
           </form>
-          <button className='w-full bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 transition duration-200 disabled:cursor-not-allowed disabled:bg-orange-400'>Sign In</button>
+          <div className="text-center mt-6">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{' '}
+              <Link to="/signup" className="text-yellow-800 hover:text-yellow-950 font-semibold">
+                Sign up
+              </Link>
+            </p>
+          </div>
        </div>
     </div>
   </div>
