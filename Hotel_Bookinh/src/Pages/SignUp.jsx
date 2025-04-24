@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { signUp } from '../Lib/auth';
+import { useAuth } from '../contex/AuthContex';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,9 @@ function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const authIfo = useAuth()
+  console.log({authIfo})
 
   const navigate = useNavigate()
   const handleSubmit = async (event) =>{

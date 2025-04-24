@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { signIn } from '../Lib/auth'
+import { useAuth } from '../contex/AuthContex'
 function SignIn() {
 
   const [email, setEmail] = useState('')
@@ -11,7 +12,8 @@ function SignIn() {
   const [error, setError] = useState(null)
   // const [success, setSuccess] = useState(false)
 
-
+  const authIfo = useAuth()
+  console.log({ authIfo })
 
   // const authIfo = useAuth()
   // console.log({ authIfo })
@@ -30,7 +32,7 @@ function SignIn() {
 
       await signIn(email, password);
 
-      navigate('/')
+      navigate("/dashboard")
 
     } catch (error) {
       setError(error.message || "Failed to sign in . Please check your credentials.")
@@ -54,7 +56,13 @@ function SignIn() {
        {/* Form info */}
        <div className='bg-white/70 rounded-lg shadow-md p-8'>
           {/* Form */}
-
+          {
+            error && (
+              <div className='mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm'>
+                {error}
+              </div>
+            )
+          }
           <form  onSubmit={handleSubmit}>
           <div className='mb-6'>
             <label className='block text-yellow-800 text-sm font-semibold mb-2' htmlFor="email">
