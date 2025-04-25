@@ -5,9 +5,9 @@ import HeaderDash from '../Components/HeaderDash';
 
 const DashboardLayout = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100 mx-auto">
-      <HeaderDash />
-      <main className="flex-grow p-6 ">
+    <div className="flex min-h-screen bg-gray-100">
+      {/* <HeaderDash /> */}
+      <main className="flex flex-shrink">
         <Outlet />
       </main>
     </div>
