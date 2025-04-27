@@ -5,13 +5,14 @@ import { FaUserAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
 import { Link } from 'react-router';
+import { useAuth } from '../contex/AuthContex';
 
 function Header() {
     const [header, setHeader] = useState(true)
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const avater_url = null
+    const { isLoggedIn, profile, logout } = useAuth()
+    const avatar_url = null
 
     useEffect(()=>{
         window.addEventListener('scroll', ()=>{
@@ -50,15 +51,15 @@ function Header() {
             <>
             <div>
                 <span  className="text-sm">
-                    Hello, Abdallah
+                    Hello, {profile?.username}
                 </span>
             </div>
             <div className='relative'>
                 <button className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" 
                 onMouseEnter={() => setDropdownOpen(true)}
                 >
-                     {avater_url ? (
-                      <img className="w-8 h-8 rounded-full " src={avater_url} />
+                     {avatar_url ? (
+                      <img className="w-8 h-8 rounded-full " src={profile?.avatar_url} />
                     ) : (
                       <FaUserAlt className="text-gray-600" />
                     )}
@@ -75,9 +76,7 @@ function Header() {
                       >
                         Your Profile
                       </Link>
-                      <Link className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        Manage Articles
-                      </Link>
+                     
                       <button
                         // onClick={() => logout()}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -90,7 +89,8 @@ function Header() {
             
             </>
 
-          ) : (
+          ) 
+          : (
 
             <div className="flex space-x-8 items-center">
                 {/* Buttons */}
@@ -98,14 +98,14 @@ function Header() {
                   to="signin"
                   className="inline-flex item-center justify-center px-4 py-2 border-none text-sm font-medium rounded-md text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-ofset-2 focus:ring-yellow-600"
                 >
-                  Sing In
+                  Booking
                 </Link>
-                <Link
+                {/* <Link
                   to="signup"
                   className="hidden sm:inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md text-yellow-700 bg-white border-yellow-800 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-ofset-2 focus:ring-yellow-800"
                 >
                   Sing Up
-                </Link>
+                </Link> */}
               </div>
             
           )}

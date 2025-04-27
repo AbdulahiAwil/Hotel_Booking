@@ -11,6 +11,10 @@ import MainLayout from "./Layout/MainLayout"
 import ProtectedRoute from "./Components/ProtectedRoute"
 import Customer from "./Pages/Customer"
 import DashboardLayout from "./Layout/DashboardLayout"
+import CustomerRegister from "./Pages/CustomerRegister"
+import RoomDetails from "./Pages/RoomDetails"
+import ProfilePage from "./Pages/ProfilePage"
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -29,14 +33,17 @@ function App() {
         {/* Routes without header & footer */}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="/profile" element={ <ProfilePage />} />
 
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<ProtectedRoute><Dashboard /> </ProtectedRoute>} />
-          <Route path="/customer" element={<Customer />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
+          <Route path="/customer" element={<ProtectedRoute> <Customer /> </ProtectedRoute>} />
+          <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
+          <Route path="/rooms" element={<ProtectedRoute> <RoomDetails /> </ProtectedRoute>} />
           {/* <Route path="settings" element={<Settings />} /> */}
         </Route>
       </Routes>
+      <Toaster />
     </AuthProvider>
   );
 }
