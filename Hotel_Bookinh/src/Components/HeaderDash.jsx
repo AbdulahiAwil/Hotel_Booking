@@ -92,7 +92,7 @@ function HeaderDash() {
     </div>
       <div className=''>
       {isMenuOpen && (
-        <div className="relative min-h-screen w-[200px] bg-yellow-900">
+        <div className="relative min-h-screen md:min-h-screen w-[200px] bg-yellow-900">
           <nav className="absolute top-14 flex flex-col items-left pt-7 w-full space-y-2">
             <div className='hover:bg-yellow-700 py-2 pl-1'>
             <Link

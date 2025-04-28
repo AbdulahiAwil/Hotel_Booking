@@ -14,6 +14,7 @@ import DashboardLayout from "./Layout/DashboardLayout"
 import CustomerRegister from "./Pages/CustomerRegister"
 import RoomDetails from "./Pages/RoomDetails"
 import ProfilePage from "./Pages/ProfilePage"
+import CreateRooms from "./Pages/CreateRooms"
 import { Toaster } from 'react-hot-toast';
 
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/customer" element={<ProtectedRoute> <Customer /> </ProtectedRoute>} />
           <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
           <Route path="/rooms" element={<ProtectedRoute> <RoomDetails /> </ProtectedRoute>} />
+          <Route path="/create" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
           {/* <Route path="settings" element={<Settings />} /> */}
         </Route>
       </Routes>
