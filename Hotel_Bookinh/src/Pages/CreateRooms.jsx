@@ -4,17 +4,24 @@ import { useAuth } from '../contex/AuthContex'
 import { uploadImage } from '../lib/storage'
 import { GiArchiveRegister } from "react-icons/gi";
 import { useNavigate } from 'react-router';
-// import { createRoom, getArticleById, updateRoom } from '../Lib/room'
+import { createRoom } from '../Lib/room'
 
 function CustomerRegister() {
+
+  // const { id } = useParams();
+  // console.log("id from url", id)
+
+  const isEditMode = false
+
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('') // Always initialize as an empty string
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTypes, setSelectedTypes] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false)
+  // const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false)
   const [featuredImageUrl, setFeaturedImageUrl] = useState('')
   const [isPublished, setIsPublished] = useState(false)
   const [error, setError] = useState(null)
+  const [price, setPrice] = useState('')
 
   // State for image upload
   const [selectedImage, setSelectedImage] = useState(null)
@@ -25,6 +32,7 @@ function CustomerRegister() {
 
 
   const fileInputRef = useRef(null)
+  
 
   const handleImageSelect = (e) => {
 
@@ -116,8 +124,110 @@ const handleUploadImage = async () => {
   }
 }
 
+const handleSave = async (publishStatus = null) => {
+  // Validate inputs
+  if (!title.trim()) {
+    toast.error('Please add a title to your room')
+    return
+}
+  if (!price.trim()) {
+    toast.error('Please add a title to your room')
+    return
+}
 
 
+// Check for content
+if (!content || content === '<p><br></p>'){
+    toast.error('Please add some content to your room')
+    return
+}
+
+
+
+// If user is not logged in, redirect to sign in
+if (!user) {
+    toast.error('You must be signed in to save an room')
+    navigate('/signin')
+    return
+}
+
+let uploadedImageData = null
+
+setIsSaving(true);
+
+console.log('Starting room save with state:', {
+    isEditMode,
+    featuredImageUrl,
+    imagePath,
+    selectedImage,
+    uploadedImageData
+})
+
+
+try {
+
+
+    // Determine if we should update the publish status
+    const published = publishStatus !== null ? publishStatus : isPublished
+
+    // Get the current image state, preferring newly uploaded image if available
+    const currentImageUrl = uploadedImageData?.url || featuredImageUrl
+    const currentImagePath = uploadedImageData?.path || imagePath
+
+
+    console.log('Current image state:', {
+        featuredImageUrl: currentImageUrl,
+        imagePath: currentImagePath,
+        selectedImage,
+        uploadedImageData
+    })
+
+    // featured_image
+
+    const roomData = {
+        title,
+        price,
+        content,
+        selectedTypes,
+        authorId: user.id,
+        published,
+        featuredImageUrl: currentImageUrl
+    }
+
+    console.log('Saving Room with data:', roomData);
+
+    let savedRoom;
+
+
+    // update 
+
+    if (isEditMode) {
+        // update functions
+        savedRoom = await updateRoom(id, roomData)
+    } else {
+        // insert || create new Room
+        savedRoom = await createRoom(roomData)
+    }
+
+
+    console.log('Room saved successfully:', savedRoom)
+
+    toast.success(`Room ${isEditMode ? 'updated' : 'created'} successfully!`)
+
+} catch (error) {
+    console.error('Error saving Room:', error)
+    toast.error('Failed to save your Room. Please try again later.')
+} finally {
+    setIsSaving(false)
+}
+
+}
+
+
+const handleChangeSelectTypes = (e) => {
+  setSelectedTypes(e.target.value);
+  console.log('Room type selected:', e.target.value);
+};
 
 
 
@@ -167,10 +277,14 @@ const handleUploadImage = async () => {
             <select
               class="w-full mt-1 p-2 border rounded-md"
               id="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={selectedTypes}
+              onChange={handleChangeSelectTypes}
             >
-              <option>Room Type</option>
+              <option value="">Room Type</option>
+              <option value="1 person">1 Person</option>
+              <option  value="2 person">2 Person</option>
+              <option  value="couple">Couple</option>
+              <option  value="family">Family</option>
             </select>
           </div>
 
@@ -215,9 +329,11 @@ const handleUploadImage = async () => {
           <div>
             <label class="block text-gray-700">Content:</label>
             <textarea
-              type="text"
-              name=""
-              id=""
+              
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              
               class="w-full mt-1 p-2 border rounded-md"
               placeholder="Enter Content"
             />
@@ -225,7 +341,7 @@ const handleUploadImage = async () => {
         </div>
         <div class="flex items-center gap-4 p-4">
           <button 
-          onClick={()=>handleSave(false)}
+          onClick={()=>handleSave(true)}
           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
             {isEditMode ? "Update and Publish" : "Save and Publish"}
           </button>

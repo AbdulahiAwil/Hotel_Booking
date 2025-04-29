@@ -16,6 +16,7 @@ import RoomDetails from "./Pages/RoomDetails"
 import ProfilePage from "./Pages/ProfilePage"
 import CreateRooms from "./Pages/CreateRooms"
 import { Toaster } from 'react-hot-toast';
+import RoomManagePage from "./Pages/RoomManagePage"
 
 
 
@@ -34,7 +35,9 @@ function App() {
         {/* Routes without header & footer */}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={ <ProfilePage />} />
+        <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
+       
+
 
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
@@ -42,6 +45,7 @@ function App() {
           <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
           <Route path="/rooms" element={<ProtectedRoute> <RoomDetails /> </ProtectedRoute>} />
           <Route path="/create" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
+          <Route path="/manage" element={<ProtectedRoute> <RoomManagePage /> </ProtectedRoute>} />
           {/* <Route path="settings" element={<Settings />} /> */}
         </Route>
       </Routes>
