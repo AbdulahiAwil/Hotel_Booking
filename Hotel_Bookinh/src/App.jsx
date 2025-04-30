@@ -45,6 +45,7 @@ function App() {
           <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
           <Route path="/rooms" element={<ProtectedRoute> <RoomDetails /> </ProtectedRoute>} />
           <Route path="/create" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
+          <Route path="/create/:id" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
           <Route path="/manage" element={<ProtectedRoute> <RoomManagePage /> </ProtectedRoute>} />
           {/* <Route path="settings" element={<Settings />} /> */}
         </Route>

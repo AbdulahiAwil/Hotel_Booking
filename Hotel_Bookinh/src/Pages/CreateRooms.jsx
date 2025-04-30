@@ -3,15 +3,15 @@ import toast from 'react-hot-toast'
 import { useAuth } from '../contex/AuthContex'
 import { uploadImage } from '../lib/storage'
 import { GiArchiveRegister } from "react-icons/gi";
-import { useNavigate } from 'react-router';
-import { createRoom } from '../Lib/room'
+import { Link, useNavigate, useParams } from 'react-router';
+import { createRoom, getRoomyById, updateRoom } from '../Lib/room'
 
 function CustomerRegister() {
 
-  // const { id } = useParams();
+  const { id } = useParams();
   // console.log("id from url", id)
 
-  const isEditMode = false
+  const isEditMode = Boolean(id)
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('') // Always initialize as an empty string
@@ -32,6 +32,57 @@ function CustomerRegister() {
 
 
   const fileInputRef = useRef(null)
+
+  useEffect(() => {
+    if (isEditMode) {
+      const fetchRoom = async () => {
+        try {
+          const room = await getRoomyById(id);
+
+          console.log("room info", room);
+
+          if (!room) {
+            setError("Room not found");
+            return;
+          }
+          // check if teh user is the author
+          if (room.author_id !== user?.id) {
+            setError("You do not have permission to edit this room");
+            return;
+          }
+
+          setTitle(room.title);
+          setContent(room.content);
+          setSelectedTypes(room.selectedTypes);
+          setPrice(room.price);
+
+
+          // Handle featured image loading with explicit error handling
+
+          if (room.featured_image) {
+            console.log(
+              "Loading existing featured image:",
+              room.featured_image
+            );
+            // Simply set the URL directly without the fetch check
+            setFeaturedImageUrl(room.featured_image);
+          } else {
+            setFeaturedImageUrl("");
+          }
+
+          // setImagePath(ar)
+
+          setIsPublished(room.published || false);
+        } catch (error) {
+          console.error("Error fetching room:", error);
+          setError("Failed to load room");
+        }
+      };
+
+      fetchRoom();
+    }
+  }, [id, isEditMode, user.id]);
+
   
 
   const handleImageSelect = (e) => {
@@ -243,9 +294,9 @@ const handleChangeSelectTypes = (e) => {
           <h2 class="text-xl font-semibold flex items-center gap-2 text-white">
             <GiArchiveRegister /> Create Room Blogs
           </h2>
-          <button class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md">
-            Customer
-          </button>
+          <Link to={"/manage"} class="bg-yellow-600 hover:bg-yellow-500 text-white px-4 py-2 rounded-md">
+            Manage Rooms
+          </Link>
         </div>
         <div class="p-4 grid grid-cols-1 md:grid-cols-1 gap-4">
           <div>
@@ -281,10 +332,10 @@ const handleChangeSelectTypes = (e) => {
               onChange={handleChangeSelectTypes}
             >
               <option value="">Room Type</option>
-              <option value="1 person">1 Person</option>
-              <option  value="2 person">2 Person</option>
-              <option  value="couple">Couple</option>
-              <option  value="family">Family</option>
+              <option value="One Person">1 Person</option>
+              <option  value="Two Person">2 Person</option>
+              <option  value="Couple">Couple</option>
+              <option  value="Family">Family</option>
             </select>
           </div>
 
