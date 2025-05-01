@@ -120,18 +120,18 @@ function HeaderDash() {
             </div>
             <div className='hover:bg-yellow-700 py-2 pl-1'>
             <Link
-              to="/rooms"
+              to="/manage"
               className="flex items-center w-full space-x-2 text-gray-100 px-2"
             >
-              <FaDoorOpen /> <span>Rooms</span>
+              <FaDoorOpen /> <span>Manage Rooms</span>
             </Link>
             </div>
             <div className='hover:bg-yellow-700 py-2 pl-1'>
             <Link
-              to="/dashboard"
+              to="/create"
               className="flex items-center w-full space-x-2 text-gray-100 px-2"
             >
-              <RiDashboard2Line /> <span>Dashboard</span>
+              <FaDoorOpen /> <span>Create Room</span>
             </Link>
             </div>
            

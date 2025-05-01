@@ -12,11 +12,12 @@ import ProtectedRoute from "./Components/ProtectedRoute"
 import Customer from "./Pages/Customer"
 import DashboardLayout from "./Layout/DashboardLayout"
 import CustomerRegister from "./Pages/CustomerRegister"
-import RoomDetails from "./Pages/RoomDetails"
+import RoomDetails from "./Pages/RoomDetail"
 import ProfilePage from "./Pages/ProfilePage"
 import CreateRooms from "./Pages/CreateRooms"
 import { Toaster } from 'react-hot-toast';
 import RoomManagePage from "./Pages/RoomManagePage"
+import Rooms from "./Pages/Rooms"
 
 
 
@@ -28,8 +29,9 @@ function App() {
         {/* Routes with header & footer */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/room/:id" element={<RoomDetail />} />
+          <Route path="/rooms" element={<Rooms />} />
           <Route path="/restaurant" element={<Restaurant />} />
+          <Route path="/room/:id" element={<RoomDetail />} />
         </Route>
 
         {/* Routes without header & footer */}
@@ -43,7 +45,7 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
           <Route path="/customer" element={<ProtectedRoute> <Customer /> </ProtectedRoute>} />
           <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
-          <Route path="/rooms" element={<ProtectedRoute> <RoomDetails /> </ProtectedRoute>} />
+          
           <Route path="/create" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
           <Route path="/create/:id" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
           <Route path="/manage" element={<ProtectedRoute> <RoomManagePage /> </ProtectedRoute>} />

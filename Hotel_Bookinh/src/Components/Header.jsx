@@ -39,9 +39,9 @@ function Header() {
             {/* Navbar */}
             
                 <nav className={`${header ? 'text-black' : 'text-white'} hidden sm:ml-40 sm:flex sm:space-x-8`}>
-                    <a href="" className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</a>
-                    <a href="" className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</a>
-                    <a href="" className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</a>
+                    <Link to={"/"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</Link>
+                    <Link to={"/rooms"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Rooms</Link>
+                    <Link to={"/restaurant"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Restaurant</Link>
                 </nav>
         </div>
                 {/* Right */}
