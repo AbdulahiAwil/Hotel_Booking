@@ -15,6 +15,7 @@ import {
 import { Link, useParams } from "react-router";
 import { useAuth } from "../contex/AuthContex";
 import { getRoomyById } from "../Lib/room";
+import { createBooking } from "../Lib/booking";
 
 const RoomDetail = () => {
 
@@ -23,6 +24,12 @@ const RoomDetail = () => {
   const { user } = useAuth()
   const [room, setRoom] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [checkIn, setCheckIn] = useState('')
+  const [checkOut, setCheckOut] = useState('')
+
+
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -48,7 +55,31 @@ const RoomDetail = () => {
   fetchRoom();
 }, [id, , user])
 
+// handle booking
+const handleBooking = async (e)=>{
+e.preventDefault()
+const newBooking = {
+  name,
+  email,
+  check_in : checkIn,
+  check_out : checkOut,
+  room_id: room.id,
+  room_name: room.title,
+  room_type: room.room_type,
+  price: room.price
 
+}
+try {
+
+  await createBooking(newBooking)
+  
+} catch (error) {
+
+  console.error(error)
+  
+}
+console.log(newBooking);
+}
 
 if (loading) {
   return (
@@ -150,29 +181,81 @@ if (!room) {
             <div className="py-8 px-6 bg-yellow-900/20">
               <div className="flex flex-col space-y-4 mb-4">
                 <h3>Your Reservation</h3>
+                <form onSubmit={handleBooking}>
+                <div>
+                 
+                 <input
+                   type="text"
+                   name="name"
+                   value={name}
+                   onChange={(e)=>setName(e.target.value)}
+                   placeholder="name"
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
+               <div>
+                 
+                 <input
+                   type="email"
+                   name="email"
+                   value={email}
+                   onChange={(e)=>setEmail(e.target.value)}
+                   placeholder="email"
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
                 <div>
                  
                   <input
                     type="date"
+                    value={checkIn}
+                    onChange={(e)=>setCheckIn(e.target.value)}
                     class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
                   />
                 </div>
+
+                <div>
+                 
+                 <input
+                   type="date"
+                   value={checkOut}
+                   onChange={(e)=>setCheckOut(e.target.value)}
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
+                
                 <div>
                   
                   <input
-                    type="date"
+                    type="text"
+                    value={room?.title}
+                    disabled
                     class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
                   />
                 </div>
                 <div>
                  
-                  <select class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700">
-                    <option>1 Adult</option>
-                    <option>2 Adults</option>
-                    <option>3 Adults</option>
-                    <option>4 Adults</option>
-                  </select>
+                 <input
+                   type="text"
+                   value={room?.price}
+                   disabled
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
+               <div>
+                 
+                 <input
+                   type="text"
+                   value={room?.room_type}
+                   disabled
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
+                {/* btn */}
+                <div>
+                  <button type="submit">Booking</button>
                 </div>
+                </form>
               </div>
             </div>
           </div>
