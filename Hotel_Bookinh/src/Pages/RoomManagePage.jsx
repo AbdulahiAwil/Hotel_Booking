@@ -96,7 +96,7 @@ const RoomManagePage = () => {
 
 
     // Published rooms
-    const publishedRooms = optimisticRooms.filter(article => article.published)
+    const publishedRooms = optimisticRooms.filter(room => room.published)
 
     const formatDate = (dateString) => {
       if (!dateString) return ''

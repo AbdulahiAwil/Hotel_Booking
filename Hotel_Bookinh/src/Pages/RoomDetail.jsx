@@ -28,6 +28,7 @@ const RoomDetail = () => {
   const [name, setName] = useState('')
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
+  const [phone, setPhone] = useState('')
 
 
   const [error, setError] = useState(null)
@@ -66,7 +67,8 @@ const newBooking = {
   room_id: room.id,
   room_name: room.title,
   room_type: room.room_type,
-  price: room.price
+  price: room.price,
+  phone
 
 }
 try {
@@ -189,7 +191,7 @@ if (!room) {
                    name="name"
                    value={name}
                    onChange={(e)=>setName(e.target.value)}
-                   placeholder="name"
+                   placeholder="Enter Name"
                    class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
                  />
                </div>
@@ -200,7 +202,17 @@ if (!room) {
                    name="email"
                    value={email}
                    onChange={(e)=>setEmail(e.target.value)}
-                   placeholder="email"
+                   placeholder="Enter Email"
+                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                 />
+               </div>
+               <div>
+                 
+                 <input
+                   type="text"
+                   value={phone}
+                   onChange={(e)=>setPhone(e.target.value)}
+                   placeholder="Enter Phone"
                    class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
                  />
                </div>
@@ -253,7 +265,7 @@ if (!room) {
                </div>
                 {/* btn */}
                 <div>
-                  <button type="submit">Booking</button>
+                  <button type="submit" className="bg-yellow-700 hover:bg-yellow-800 text-xl text-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700">Booking</button>
                 </div>
                 </form>
               </div>
