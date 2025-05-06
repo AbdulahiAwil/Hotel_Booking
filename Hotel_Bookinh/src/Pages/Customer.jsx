@@ -1,72 +1,112 @@
-import React, { useEffect, useOptimistic, useState, useTransition } from 'react'
-import { useAuth } from '../contex/AuthContex'
-import { getBookingByRoom } from '../Lib/booking';
-import { Link, useNavigate } from 'react-router'
+import React, { useEffect, useOptimistic, useState, useTransition } from 'react';
+import { useAuth } from '../contex/AuthContex';
+import { deleteBook, getBookingByRoom, updateBook } from '../Lib/booking';
+import { Link, useNavigate } from 'react-router';
 import { IoList } from "react-icons/io5";
-import { FiEdit2, FiEye, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2, FiEye, FiLoader, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { MdModeEdit } from 'react-icons/md';
 
 function Customer() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [booking, setBooking] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [totalCount, setTotalCount] = useState(0);
+  const [bookingToDelete, setBookingToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [isUpdating, setIsUpdating] = useState(null);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [checkIn, setCheckIn] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+  const [phone, setPhone] = useState('');
 
-  const { user } = useAuth()
-      const navigate = useNavigate()
-      const [booking, setBooking] = useState([])
-      const [loading, setLoading] = useState(true)
-      const [error, setError] = useState(null)
-      const [totalCount, setTotalCount] = useState(0)
-      const [bookingToDelete, setBookingToDelete] = useState(null)
-      const [isDeleting, setIsDeleting] = useState(false)
-      const [isPending, startTransition] = useTransition()
+  const [optimisticBooks, updateOptimisticBooks] = useOptimistic(booking, (state, idToRemove) =>
+    state.filter((booking) => booking.id !== idToRemove)
+  );
 
+  useEffect(() => {
+    if (user) {
+      fetchCustomerBooking();
+    } else {
+      navigate('signin');
+    }
+  }, [user]);
 
-      const [optimisticBooks, updateOptimisticBooks] = useOptimistic(booking, (state, booksToRemove) => state.filter(booking => booking.id !== booksToRemove))
+  const fetchCustomerBooking = async () => {
+    try {
+      setLoading(true);
+      const { booking, count } = await getBookingByRoom({ includeUnPublished: true, limit: 100 });
+      setBooking(booking);
+      setTotalCount(count);
+    } catch (error) {
+      console.error('Error fetching customers:', error);
+      setError('Failed to load your customer. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-       useEffect(() => {
-              if (user) {
-                  fetchCustomerBooking()
-              } else {
-                  navigate('signin')
-              }
-          }, [user])
+  const confirmDelete = (book) => setBookingToDelete(book);
+  const cancelDelete = () => setBookingToDelete(null);
 
-           const fetchCustomerBooking = async () => {
-          
-                  try {
-                      setLoading(true)
-                      const { booking, count } = await getBookingByRoom({ includeUnPublished: true, limit: 100 })
-          
-                      setBooking(booking)
-                      setTotalCount(count)
-          
-                      console.log("Booking", booking)
-          
-                  } catch (error) {
-          
-                      console.error('Error fetching customers:', error)
-                      setError('Failed to load your customer. Please try again.')
-                      toast.error('Failed to load your rooms')
-          
-                  } finally {
-                      setLoading(false)
-                  }
-          
-              }
-          
-              const confirmDelete = (book) => {
-                setBookingToDelete(book)
-            }
+  const handleDelete = async () => {
+    if (!bookingToDelete) return;
+    try {
+      setIsDeleting(true);
+      startTransition(() => updateOptimisticBooks(bookingToDelete.id));
+      await deleteBook(bookingToDelete.id);
+      setBooking((prevBooks) => prevBooks.filter((book) => book.id !== bookingToDelete.id));
+      setTotalCount((prevCount) => prevCount - 1);
+      setBookingToDelete(null);
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      fetchCustomerBooking();
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
-            // const publishedBooks = optimisticBooks.filter(booking => booking.published)
-            // console.log(publishedBooks)
-            const formatDate = (dateString) => {
-              if (!dateString) return ''
-        
-              const date = new Date(dateString)
-              return date.toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric'
-              })
-          }
+  const handleUpdating = (booking) => {
+    setIsUpdating(booking);
+    setName(booking.name);
+    setEmail(booking.email);
+    setPhone(booking.phone);
+    setCheckIn(booking.check_in);
+    setCheckOut(booking.check_out);
+  };
+
+  const updateBooking = async (e) => {
+    e.preventDefault();
+    if (!isUpdating || !isUpdating.id) return;
+    const updatedBooking = {
+      id: isUpdating.id,
+      name,
+      email,
+      phone,
+      check_in: checkIn,
+      check_out: checkOut
+    };
+    console.log(updatedBooking)
+    try {
+      await updateBook(updatedBooking);
+      setBooking((prevBookings) =>
+        prevBookings.map((book) => (book.id === updatedBooking.id ? { ...book, ...updatedBooking } : book))
+      );
+      setIsUpdating(null);
+    } catch (error) {
+      console.error('Update error:', error);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
 
   return (
     <div className="max-w-screen flex flex-col bg-gray-100">
@@ -86,19 +126,30 @@ function Customer() {
         {/* Form Inputs */}
         <div>
           <label className="block text-gray-700">Full name:</label>
-          <input type="text" className="w-full mt-1 p-2 border rounded-md" placeholder="Enter Full name" />
+          <input type="text" 
+             
+           className="w-full mt-1 p-2 border rounded-md"
+           placeholder="Enter Full name" />
         </div>
         <div>
           <label className="block text-gray-700">Email:</label>
-          <input type="email" className="w-full mt-1 p-2 border rounded-md" placeholder="Enter Email" />
+          <input type="email"
+           
+           className="w-full mt-1 p-2 border rounded-md"
+            placeholder="Enter Email" />
         </div>
         <div>
           <label className="block text-gray-700">Customer Phone:</label>
-          <input type="text" className="w-full mt-1 p-2 border rounded-md" placeholder="Enter Customer Number" />
+          <input type="text"
+           
+          className="w-full mt-1 p-2 border rounded-md" 
+          placeholder="Enter Customer Number" />
         </div>
         <div>
           <label className="block text-gray-700">Check In Date:</label>
-          <input type="date" className="w-full mt-1 p-2 border rounded-md" />
+          <input type="date"
+             
+           className="w-full mt-1 p-2 border rounded-md" />
         </div>
         <div>
           <label className="block text-gray-700">Check Out Date:</label>
@@ -139,27 +190,21 @@ function Customer() {
         </div>
       ) : optimisticBooks.length === 0 ? (
         <div className="bg-white rounded-xl shadow-md p-12 text-center">
-          <div className="mx-auto w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-            <FiPlus className="h-10 w-10 text-orange-600" />
+          <div className="mx-auto w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
+            <FiPlus className="h-10 w-10 text-yellow-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">No Articles Yet</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">No Booking Yet</h2>
           <p className="text-gray-500 max-w-md mx-auto mb-8">
             You haven't created any booking yet. Start writing your first article and share your knowledge!
           </p>
-          <Link
-            to="/editor"
-            className="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-xl shadow-md hover:bg-orange-700"
-          >
-            <FiPlus className="mr-2" />
-            Create Your First Article
-          </Link>
+         
         </div>
       ) : (
         <div className="overflow-x-auto p-4">
           {booking.length > 0 ? (
             <table className="min-w-full bg-white text-sm border">
               <thead>
-                <tr className="bg-gray-200 text-gray-700">
+                <tr className="bg-yellow-800/70 text-white">
                   <th className="py-2 px-4 border">Full Name</th>
                   <th className="py-2 px-4 border">Email</th>
                   <th className="py-2 px-4 border">Phone</th>
@@ -189,13 +234,13 @@ function Customer() {
                         >
                           <FiEye />
                         </Link>
-                        <Link
-                          to={`/create/${book.id}`}
+                        <button
+                          onClick={() => handleUpdating(book)}
                           className="p-2 text-orange-600 hover:text-orange-800 rounded-full hover:bg-orange-50"
                           title="Edit room"
                         >
                           <FiEdit2 />
-                        </Link>
+                        </button>
                         <button
                           onClick={() => confirmDelete(book)}
                           className="p-2 text-red-600 hover:text-red-800 rounded-full hover:bg-red-50 cursor-pointer"
@@ -215,7 +260,139 @@ function Customer() {
         </div>
       )}
     </div>
+
+    {/* delete confirmation modal */}
+    {bookingToDelete && (
+            <div className="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  Confirm Deletion
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Are you sure you want to delete "
+                  {bookingToDelete.name || "Untitled Book"}"? This action cannot
+                  be undone.
+                </p>
+    
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={cancelDelete}
+                    disabled={isDeleting}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+    
+                  <button
+                    onClick={handleDelete}
+                    // disabled={isDeleting}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 flex items-center"
+                  >
+                    {isDeleting ? (
+                      <>
+                        <FiLoader className="animate-spin mr-2" />
+                        Deleting...
+                      </>
+                    ) : (
+                      <>
+                        <FiTrash2 className="mr-2" />
+                        Delete
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+
+    
+{isUpdating && (
+            <div className="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-xl shadow-xl w-[600px] ">
+                <div className='w-full p-4 bg-yellow-700 rounded-t-xl'>
+                
+                <div className="flex items-center space-x-5 text-xl font-bold text-white mb-4">
+                <MdModeEdit className='text-xl text-white' />
+                 Edit Customer Booking
+
+                </div>
+
+                </div>
+                  <div>
+                    <form onSubmit={updateBooking}>
+                      <div className='p-4 grid grid-cols-1 md:grid-cols-2 gap-4'>
+                        <div className='col-span-2'>
+                        <label className="block text-gray-700">Full name:</label>
+                        <input type="text"
+                        name="name"
+                        value={name}
+                        onChange={(e)=>setName(e.target.value)}
+                         className="w-full mt-1 p-2 border rounded-md" 
+                         placeholder="" />
+                        </div>
+                        <div className='col-span-2'><label className="block text-gray-700">Full name:</label>
+                        <input type="email"
+                        name="email"
+                        value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
+                         className="w-full mt-1 p-2 border rounded-md"
+                          placeholder="" /></div>
+                        <div className='col-span-2'>
+                        <label className="block text-gray-700">Full name:</label>
+                        <input type="text"
+                        name="phone"
+                        value={phone}
+                        onChange={(e)=>setPhone(e.target.value)} 
+                         className="w-full mt-1 p-2 border rounded-md"
+                          placeholder="" />
+                        </div>
+                        <div className='cols-span-1'>
+                        <label className="block text-gray-700">Full name:</label>
+                        <input type="date"
+                        name='date'
+                        value={checkIn}
+                        onChange={(e)=>setCheckIn(e.target.value)} 
+                        className="w-full mt-1 p-2 border rounded-md" 
+                        placeholder="" />
+                        </div>
+                        <div className='cols-span-1'>
+                        <label className="block text-gray-700">Full name:</label>
+                        <input type="date" 
+                        
+                        value={checkOut}
+                        onChange={(e)=>setCheckOut(e.target.value)}
+                        className="w-full mt-1 p-2 border rounded-md" 
+                        placeholder="Enter Full name" />
+                        </div>
+                      </div>
+                      <div className="flex justify-left m-4 space-x-3">
+                  <button
+                    // onClick={cancelDelete}
+                    disabled={isDeleting}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                  >
+                    Cancel
+                  </button>
+    
+                  <button
+                    type='submit'
+                    // disabled={isDeleting}
+                    className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors duration-200 flex items-center"
+                  >
+                    Update
+                  </button>
+                </div>
+                    </form>
+                    
+                  </div>
+                 
+              </div>
+            </div>
+          )}
   </div>
+
+  
   
   
   );
