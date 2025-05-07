@@ -4,7 +4,9 @@ import { deleteBook, getBookingByRoom, updateBook } from '../Lib/booking';
 import { Link, useNavigate } from 'react-router';
 import { IoList } from "react-icons/io5";
 import { FiEdit2, FiEye, FiLoader, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FaRegCircleUser } from "react-icons/fa6";
 import { MdModeEdit } from 'react-icons/md';
+import { FaUserAlt } from 'react-icons/fa';
 
 function Customer() {
   const { user } = useAuth();
@@ -22,6 +24,15 @@ function Customer() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [phone, setPhone] = useState('');
+  const [viewCustomer, setViewCustomer] = useState()
+  const [searchName, setSearchName] = useState('');
+const [searchEmail, setSearchEmail] = useState('');
+const [searchPhone, setSearchPhone] = useState('');
+const [searchCheckIn, setSearchCheckIn] = useState('');
+const [searchCheckOut, setSearchCheckOut] = useState('');
+const [searchRoomName, setSearchRoomName] = useState('');
+
+
 
   const [optimisticBooks, updateOptimisticBooks] = useOptimistic(booking, (state, idToRemove) =>
     state.filter((booking) => booking.id !== idToRemove)
@@ -51,6 +62,8 @@ function Customer() {
 
   const confirmDelete = (book) => setBookingToDelete(book);
   const cancelDelete = () => setBookingToDelete(null);
+  const handleView = (booking) => setViewCustomer(booking);
+  const handleBack = () => setViewCustomer(null)
 
   const handleDelete = async () => {
     if (!bookingToDelete) return;
@@ -81,6 +94,7 @@ function Customer() {
   const updateBooking = async (e) => {
     e.preventDefault();
     if (!isUpdating || !isUpdating.id) return;
+  
     const updatedBooking = {
       id: isUpdating.id,
       name,
@@ -89,17 +103,39 @@ function Customer() {
       check_in: checkIn,
       check_out: checkOut
     };
-    console.log(updatedBooking)
+  
+    console.log(updatedBooking);
+  
     try {
-      await updateBook(updatedBooking);
+      await updateBook(updatedBooking.id, updatedBooking); // ✅ FIXED LINE
+  
       setBooking((prevBookings) =>
-        prevBookings.map((book) => (book.id === updatedBooking.id ? { ...book, ...updatedBooking } : book))
+        prevBookings.map((book) =>
+          book.id === updatedBooking.id ? { ...book, ...updatedBooking } : book
+        )
       );
       setIsUpdating(null);
     } catch (error) {
       console.error('Update error:', error);
     }
   };
+
+  const handleSearching = (e) => {
+    e.preventDefault()
+    const filtered = booking.filter((b) =>
+      b.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      b.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
+      b.phone.toLowerCase().includes(searchPhone.toLowerCase()) &&
+      b.check_in.toLowerCase().includes(searchCheckIn.toLowerCase())&&
+      b.check_out.toLowerCase().includes(searchCheckOut.toLowerCase())&&
+      b.room_name.toLowerCase().includes(searchRoomName.toLowerCase())
+    );
+  
+    setBooking(filtered);
+  };
+  
+  
+  
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -121,57 +157,67 @@ function Customer() {
           + Create
         </button>
       </div>
-  
+      <form onSubmit={handleSearching}>
       <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Form Inputs */}
+       
         <div>
           <label className="block text-gray-700">Full name:</label>
           <input type="text" 
-             
+          value={searchName}
+          onChange={(e) => { setSearchName(e.target.value); handleSearching(); }}
            className="w-full mt-1 p-2 border rounded-md"
            placeholder="Enter Full name" />
         </div>
         <div>
           <label className="block text-gray-700">Email:</label>
           <input type="email"
-           
+           value={searchEmail}
+           onChange={(e) => { setSearchEmail(e.target.value); handleSearching(); }}
            className="w-full mt-1 p-2 border rounded-md"
             placeholder="Enter Email" />
         </div>
         <div>
           <label className="block text-gray-700">Customer Phone:</label>
           <input type="text"
-           
+           value={searchPhone}
+           onChange={(e) => { setSearchPhone(e.target.value); handleSearching(); }}
           className="w-full mt-1 p-2 border rounded-md" 
           placeholder="Enter Customer Number" />
         </div>
         <div>
           <label className="block text-gray-700">Check In Date:</label>
           <input type="date"
-             
+             value={searchCheckIn}
+             onChange={(e) => { setSearchCheckIn(e.target.value); handleSearching(); }}
            className="w-full mt-1 p-2 border rounded-md" />
         </div>
         <div>
           <label className="block text-gray-700">Check Out Date:</label>
-          <input type="date" className="w-full mt-1 p-2 border rounded-md" />
+          <input type="date"
+          value={searchCheckOut}
+          onChange={(e) => { setSearchCheckOut(e.target.value); handleSearching(); }} 
+          className="w-full mt-1 p-2 border rounded-md" />
         </div>
         <div>
-          <label className="block text-gray-700">Number of Guest:</label>
-          <input type="number" className="w-full mt-1 p-2 border rounded-md" />
+          <label className="block text-gray-700">Room Title:</label>
+          <input type="text" 
+          value={searchRoomName}
+          onChange={(e) => { setSearchRoomName(e.target.value); handleSearching(); }}
+          placeholder='Room Title'
+          className="w-full mt-1 p-2 border rounded-md" />
         </div>
-        <div>
-          <label className="block text-gray-700">Room Type:</label>
-          <select className="w-full mt-1 p-2 border rounded-md">
-            <option>Room Type</option>
-          </select>
-        </div>
+       
+        
+      
       </div>
-  
       <div className="flex items-center gap-4 p-4">
-        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">Search</button>
+        <button type='submit' className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">Search</button>
         <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Reset</button>
       </div>
-  
+      </form>
+      
+      
       {/* State Handling: Loading / Error / Empty / Table */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
@@ -227,24 +273,24 @@ function Customer() {
                     <td className="py-2 px-4 border text-left">{book.room_type}</td>
                     <td className="py-2 px-4 border text-center">
                       <div className="flex justify-end space-x-2">
-                        <Link
-                          to={`/room/${book.id}`}
+                        <button
+                          onClick={() => handleView(book)}
                           className="p-2 text-indigo-600 hover:text-indigo-800 rounded-full hover:bg-blue-50"
-                          title="View Article"
+                          title="View Customer"
                         >
                           <FiEye />
-                        </Link>
+                        </button>
                         <button
                           onClick={() => handleUpdating(book)}
                           className="p-2 text-orange-600 hover:text-orange-800 rounded-full hover:bg-orange-50"
-                          title="Edit room"
+                          title="Edit Customer"
                         >
                           <FiEdit2 />
                         </button>
                         <button
                           onClick={() => confirmDelete(book)}
                           className="p-2 text-red-600 hover:text-red-800 rounded-full hover:bg-red-50 cursor-pointer"
-                          title="Delete room"
+                          title="Delete Customer"
                         >
                           <FiTrash2 />
                         </button>
@@ -307,7 +353,7 @@ function Customer() {
 
 
     
-{isUpdating && (
+    {isUpdating && (
             <div className="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center p-4 z-50">
               <div className="bg-white rounded-xl shadow-xl w-[600px] ">
                 <div className='w-full p-4 bg-yellow-700 rounded-t-xl'>
@@ -390,7 +436,55 @@ function Customer() {
               </div>
             </div>
           )}
+
+
+    
+{viewCustomer && (
+            <div className="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-xl shadow-xl w-[600px] ">
+                <div className='flex items-center justify-center w-full mt-10 mb-10'>
+                <div className="flex items-center justify-center w-[200px] h-[200px] rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                <FaUserAlt className='w-[200px] h-[200px] rounded-full font-semibold items-center text-yellow-800/70'/>
+         
+                </div>
+                </div>
+                
+                  <div className='p-4 grid grid-cols-1 md:grid-cols-2 gap-2 justify-center mb-8 text-gray-700'>
+                  <div className='col-span-2 space-x-4 w-full border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Full Name:</span> <span>{viewCustomer.name}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Customer Email:</span> <span>{viewCustomer.email}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Full Phone:</span> <span>{viewCustomer.phone}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Room Title:</span> <span>{viewCustomer.room_name}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Room Type:</span> <span>{viewCustomer.room_type}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Check In Date:</span> <span>{formatDate(viewCustomer.check_in)}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Check Out Date:</span> <span>{formatDate(viewCustomer.check_out)}</span>
+                  </div>
+                  <button onClick={handleBack} className="col-span-2 px-4 py-2 bg-yellow-700 text-yellow-100 rounded-lg hover:bg-yellow-800 transition-colors duration-200">Back</button>
+                </div>
+                
+                
+                 
+              </div>
+            </div>
+          )}
+
+
+          
   </div>
+
+
 
   
   

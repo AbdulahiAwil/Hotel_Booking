@@ -101,11 +101,13 @@ export const getBookingByRoom = async ({ includeUnPublished = false, limit = 5, 
       check_in: updates.checkIn,
       check_out: updates.checkOut,
       
-      update_at: new Date()
+      updated_at: new Date()
   })
   .eq('id', id)
   .select()
   .single()
+
+  
 
 
 if (error) {
