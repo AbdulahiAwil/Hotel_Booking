@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getUserProfile, onAuthChange } from "../Lib/auth";
+import { getUserProfile, onAuthChange, signOut } from "../Lib/auth";
 
 const AuthContext = createContext(null);
 
@@ -36,13 +36,22 @@ export function AuthProvider({ children }) {
 
     }, [])
 
+    const logout = async () => {
+        try {
+            await signOut()
+        } catch (error) {
+            console.error('Error signing out:', error)
+        }
+    }
+
 
 
     const value = {
         user,
         profile,
         isLoading,
-        isLoggedIn: !!user
+        isLoggedIn: !!user,
+        logout
     }
 
     return (

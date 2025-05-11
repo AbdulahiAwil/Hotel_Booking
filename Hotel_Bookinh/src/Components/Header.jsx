@@ -12,7 +12,10 @@ function Header() {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isLoggedIn, profile, logout } = useAuth()
-    const avatar_url = null
+    const avatar_url = profile.avatar_url
+
+    console.log("user profile", profile)  
+
 
     useEffect(()=>{
         window.addEventListener('scroll', ()=>{
@@ -59,7 +62,7 @@ function Header() {
                 onMouseEnter={() => setDropdownOpen(true)}
                 >
                      {avatar_url ? (
-                      <img className="w-8 h-8 rounded-full " src={profile?.avatar_url} />
+                      <img className="w-8 h-8 rounded-full" src={avatar_url} />
                     ) : (
                       <FaUserAlt className="text-gray-600" />
                     )}
@@ -78,7 +81,7 @@ function Header() {
                       </Link>
                      
                       <button
-                        // onClick={() => logout()}
+                        onClick={() => logout()}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
                         Signout

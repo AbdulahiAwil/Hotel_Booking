@@ -149,3 +149,7 @@ export function onAuthChange(callback){
 
     return () => data.subscription.unsubscribe();
 }
+
+export async function signOut() {
+    await supabase.auth.signOut()
+  }
