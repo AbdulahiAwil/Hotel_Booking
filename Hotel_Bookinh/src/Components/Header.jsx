@@ -12,7 +12,7 @@ function Header() {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isLoggedIn, profile, logout } = useAuth()
-    const avatar_url = profile.avatar_url
+    const avatar_url = profile?.avatar_url
 
     console.log("user profile", profile)  
 
@@ -28,7 +28,7 @@ function Header() {
     >
         <div className='container mx-auto flex flex-row justify-between px-6 items-center gap-y-6 lg:flex-row lg:justify-between lg:gap-y-0'>
         {/* Left */}
-        <div className='flex'>
+        <div className='flex items-center justify-between w-full'>
             {/* Logo */}
             <div className='flex-shrink-0 flex items-center'>
             <a href="">
@@ -43,19 +43,19 @@ function Header() {
             
                 <nav className={`${header ? 'text-black' : 'text-white'} hidden sm:ml-40 sm:flex sm:space-x-8`}>
                     <Link to={"/"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</Link>
-                    <Link to={"/rooms"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Rooms</Link>
+                    <Link to={"/room"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Rooms</Link>
                     <Link to={"/restaurant"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Restaurant</Link>
                 </nav>
         </div>
                 {/* Right */}
         
         <div className={`${header ? 'text-black' : 'text-white'} flex space-x-8 items-center`}>
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <>
             <div>
-                <span  className="text-sm">
+                {/* <span  className="text-sm">
                     Hello, {profile?.username}
-                </span>
+                </span> */}
             </div>
             <div className='relative'>
                 <button className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" 
@@ -73,6 +73,13 @@ function Header() {
                       onMouseLeave={() => setDropdownOpen(false)}
                     >
                       <div></div>
+                      <Link
+                        to={"dashboard"}
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Hello, {profile?.username}
+                      </Link>
+                     
                       <Link
                         to={"profile"}
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -92,25 +99,6 @@ function Header() {
             
             </>
 
-          ) 
-          : (
-
-            <div className="flex space-x-8 items-center">
-                {/* Buttons */}
-                <Link
-                  to="signin"
-                  className="inline-flex item-center justify-center px-4 py-2 border-none text-sm font-medium rounded-md text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-ofset-2 focus:ring-yellow-600"
-                >
-                  Booking
-                </Link>
-                {/* <Link
-                  to="signup"
-                  className="hidden sm:inline-flex items-center justify-center px-4 py-2 border text-sm font-medium rounded-md text-yellow-700 bg-white border-yellow-800 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-ofset-2 focus:ring-yellow-800"
-                >
-                  Sing Up
-                </Link> */}
-              </div>
-            
           )}
             
 

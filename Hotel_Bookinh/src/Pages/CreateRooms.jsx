@@ -298,7 +298,7 @@ const handleChangeSelectTypes = (e) => {
             Manage Rooms
           </Link>
         </div>
-        <div class="p-4 grid grid-cols-1 md:grid-cols-1 gap-4">
+        <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-gray-700">Title:</label>
             <input
@@ -377,7 +377,7 @@ const handleChangeSelectTypes = (e) => {
               </div>
             </div>
           </div>
-          <div>
+          <div className='grid col-span-2'>
             <label class="block text-gray-700">Content:</label>
             <textarea
               

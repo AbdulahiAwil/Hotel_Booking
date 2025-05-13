@@ -17,7 +17,7 @@ import ProfilePage from "./Pages/ProfilePage"
 import CreateRooms from "./Pages/CreateRooms"
 import { Toaster } from 'react-hot-toast';
 import RoomManagePage from "./Pages/RoomManagePage"
-import Rooms from "./Pages/Rooms"
+import Room from "./Pages/Room"
 
 
 
@@ -29,7 +29,7 @@ function App() {
         {/* Routes with header & footer */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/rooms" element={<Rooms />} />
+          <Route path="/room" element={<Room />} />
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/room/:id" element={<RoomDetail />} />
         </Route>
