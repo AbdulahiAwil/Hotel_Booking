@@ -9,6 +9,7 @@ import Team from '../Components/team'
 function Restaurant() {
 
   return (
+    <>
     <section className='h-full bg-repeat min-w-[1800px] overflow-hidden'>
       <div className="bg-cover bg-center h-[560px] relative flex justify-center items-center w-full">
               <img className=" w-full h-full" src={RestImage} alt="" />
@@ -20,13 +21,15 @@ function Restaurant() {
               </div>
               {/* Title */}
             </div>
-            <div className='mb-[50px]'>
+           
                 <About />
                <MenuRest />
                <Team />
-            </div>
+            
           
     </section>
+    
+    </>
   )
 }
 
