@@ -90,6 +90,20 @@ export const getBookingByRoom = async ({ includeUnPublished = false, limit = 5, 
     return data
   }
 
+  export const getBookingCount = async () => {
+  try {
+    const { count, error } = await supabase
+      .from('booking')
+      .select('id', { count: 'exact', head: true });
+
+    if (error) throw error;
+
+    return count;
+  } catch (err) {
+    console.error("Error getting booking count:", err.message);
+    return 0;
+  }
+};
 
   export const updateBook = async (id, updates) => {
   const { data, error } = await supabase

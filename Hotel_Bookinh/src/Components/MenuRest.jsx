@@ -8,7 +8,7 @@ import { staggerContainer, fadeIn } from '../Variants'
 const MenuRest = () => {
     const {title, subtitle, modelImg, menuItems, btnText} = menuData
   return (
-    <section className="min-h-[780px]">
+    <section className="min-h-[780px] overflow-hidden">
       <div className="bg-yellow-300 h-[780px] absolute w-full min-w-screen -z-0">
         <img src={backgroundMenu} className="w-full" alt="" />
       </div>

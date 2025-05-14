@@ -141,6 +141,24 @@ export async  function getUserProfile(userId) {
 }
 
 
+
+export const getUserCount = async () => {
+  try {
+    const { count, error } = await supabase
+      .from('users')
+      .select('*', { count: 'exact', head: true });
+
+    if (error) throw error;
+
+    return count;
+  } catch (err) {
+    console.error("Error getting user count:", err.message);
+    return 0;
+  }
+};
+
+
+
 export function onAuthChange(callback){
 
     const { data } = supabase.auth.onAuthStateChange((event, session) => {

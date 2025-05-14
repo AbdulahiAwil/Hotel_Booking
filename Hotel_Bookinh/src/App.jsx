@@ -26,32 +26,63 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        {/* Routes with header & footer */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/room" element={<Room />} />
-          <Route path="/restaurant" element={<Restaurant />} />
-          <Route path="/room/:id" element={<RoomDetail />} />
-        </Route>
+      {/* ✅ Layout leh header/footer */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/room" element={<Room />} />
+        <Route path="/restaurant" element={<Restaurant />} />
+        <Route path="/room/:id" element={<RoomDetail />} />
+      </Route>
 
-        {/* Routes without header & footer */}
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
-       
+      {/* ✅ Layout aan lahayn header/footer */}
+      <Route path="signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/profile" element={
+        <ProtectedRoute>
+          <ProfilePage />
+        </ProtectedRoute>
+      } />
+
+      {/* ✅ Dashboard Layout + Protected */}
+      <Route element={<DashboardLayout />}>
+        
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/customer" element={
+          <ProtectedRoute>
+            <Customer />
+          </ProtectedRoute>
+        } />
+        <Route path="/register" element={
+          <ProtectedRoute>
+            <CustomerRegister />
+          </ProtectedRoute>
+        } />
+        <Route path="/create" element={
+          <ProtectedRoute>
+            <CreateRooms />
+          </ProtectedRoute>
+        } />
+        <Route path="/create/:id" element={
+          <ProtectedRoute>
+            <CreateRooms />
+          </ProtectedRoute>
+        } />
+        <Route path="/manage" element={
+          <ProtectedRoute>
+            <RoomManagePage />
+          </ProtectedRoute>
+        } />
+        {/* <Route path="/settings" element={<Settings />} /> */}
+      </Route>
+    </Routes>
+  
 
 
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
-          <Route path="/customer" element={<ProtectedRoute> <Customer /> </ProtectedRoute>} />
-          <Route path="/register" element={<ProtectedRoute> <CustomerRegister /> </ProtectedRoute>} />
-          
-          <Route path="/create" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
-          <Route path="/create/:id" element={<ProtectedRoute> <CreateRooms /> </ProtectedRoute>} />
-          <Route path="/manage" element={<ProtectedRoute> <RoomManagePage /> </ProtectedRoute>} />
-          {/* <Route path="settings" element={<Settings />} /> */}
-        </Route>
-      </Routes>
+
       <Toaster />
     </AuthProvider>
   );

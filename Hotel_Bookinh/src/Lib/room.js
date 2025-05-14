@@ -36,6 +36,24 @@ export const createRoom = async (room) => {
 
 }
 
+export const selectPublishedRooms = async () => {
+  try {
+    const { data: rooms, error } = await supabase
+      .from('rooms')
+      .select('*')
+      .eq('published', true); // kaliya kuwa published ah
+
+    if (error) throw error;
+
+    console.log("Published Rooms:", rooms);
+    return rooms;
+  } catch (err) {
+    console.error("Error fetching published rooms:", err.message);
+    return [];
+  }
+};
+
+
 
 export const getRoomsByAuthor = async (authorId, { includeUnPublished = false, limit = 10, offset = 0 }) => {
 

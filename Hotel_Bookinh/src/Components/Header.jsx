@@ -14,7 +14,7 @@ function Header() {
     const { isLoggedIn, profile, logout } = useAuth()
     const avatar_url = profile?.avatar_url
 
-    console.log("user profile", profile)  
+    // console.log("user profile", profil)  
 
 
     useEffect(()=>{
