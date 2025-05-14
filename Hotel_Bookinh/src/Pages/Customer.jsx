@@ -29,6 +29,7 @@ function Customer() {
 const [searchEmail, setSearchEmail] = useState('');
 const [searchPhone, setSearchPhone] = useState('');
 const [searchCheckIn, setSearchCheckIn] = useState('');
+const [price, setPrice] = useState('');
 const [searchCheckOut, setSearchCheckOut] = useState('');
 const [searchRoomName, setSearchRoomName] = useState('');
 
@@ -89,6 +90,7 @@ const [searchRoomName, setSearchRoomName] = useState('');
     setPhone(booking.phone);
     setCheckIn(booking.check_in);
     setCheckOut(booking.check_out);
+    setPrice(booking.price);
   };
 
   const updateBooking = async (e) => {
@@ -101,7 +103,8 @@ const [searchRoomName, setSearchRoomName] = useState('');
       email,
       phone,
       check_in: checkIn,
-      check_out: checkOut
+      check_out: checkOut,
+      price
     };
   
     console.log(updatedBooking);
@@ -470,6 +473,9 @@ const [searchRoomName, setSearchRoomName] = useState('');
                   </div>
                   <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
                     <span>Check Out Date:</span> <span>{formatDate(viewCustomer.check_out)}</span>
+                  </div>
+                  <div className='col-span-2 space-x-4 border-b-2 border-gray-100 text-xl p-4'>
+                    <span>Price:</span> <span>{viewCustomer.price}</span>
                   </div>
                   <button onClick={handleBack} className="col-span-2 px-4 py-2 bg-yellow-700 text-yellow-100 rounded-lg hover:bg-yellow-800 transition-colors duration-200">Back</button>
                 </div>
