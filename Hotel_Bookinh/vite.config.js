@@ -9,6 +9,6 @@ export default defineConfig({
     tailwindcss(),
     
   ],
-  base: process.env.VITE_BASE_PATH || "/Hotel_Booking",
+  // base: process.env.VITE_BASE_PATH || "/Hotel_Booking",
   
 })

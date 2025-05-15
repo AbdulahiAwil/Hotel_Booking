@@ -1,21 +1,45 @@
 import supabase from "./supabase"
 
-export const createBooking = async (newBooking)=>{
+// export const createBooking = async (newBooking)=>{
     
-const { data, error } = await supabase
-.from('booking')
-.insert([
-    newBooking
-])
-.select()
-.single()
+// const { data, error } = await supabase
+// .from('booking')
+// .insert([
+//     newBooking
+// ])
+// .select()
+// .single()
 
-if(error){
-    throw error
-}
+// if(error){
+//     throw error
+// }
 
-console.log("successfull booking", data)
+// console.log("successfull booking", data)
 
+// }
+
+export const createBooking = async (newBooking) => {
+  const { data, error } = await supabase
+    .from('booking')
+    .insert([newBooking])
+    .select()
+    .single()
+
+  if (error) throw error
+
+  await fetch('https://.supabase.co/functions/v1/send-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: data.email,
+      name: data.name,
+      date: data.date,
+    }),
+  })
+
+  return data
 }
 
 export const getBookingByRoom = async ({ includeUnPublished = false, limit = 5, offset = 0 }) => {
