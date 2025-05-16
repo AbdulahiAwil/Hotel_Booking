@@ -114,18 +114,27 @@ export const getBookingByRoom = async ({ includeUnPublished = false, limit = 5, 
     return data
   }
 
-  export const getBookingCount = async () => {
+ export const getBookingCount = async () => {
   try {
-    const { count, error } = await supabase
+    const { data, error } = await supabase
       .from('booking')
-      .select('id', { count: 'exact', head: true });
+      .select("count: id", { count: "exact" })
+      .select(`
+        month: created_at
+      `);
 
     if (error) throw error;
 
-    return count;
+    // Tani weli ma shaqeynayo sidaan. Waxa sax ah waa:
+    const { data: monthlyCounts, error: aggError } = await supabase
+      .rpc('get_monthly_booking_counts');
+
+    if (aggError) throw aggError;
+
+    return monthlyCounts; // [{ month: 'January', count: 5 }, ...]
   } catch (err) {
     console.error("Error getting booking count:", err.message);
-    return 0;
+    return [];
   }
 };
 

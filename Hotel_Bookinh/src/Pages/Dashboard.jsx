@@ -5,7 +5,11 @@ import {  selectPublishedRooms } from '../Lib/room';
 import { BedDouble, BookCopy, Users } from 'lucide-react';
 import { getUserCount, getUserProfile } from '../Lib/auth';
 import { getBookingCount } from '../Lib/booking';
+import BookingChart from '../ChartFolder/BookingChart';
+import ErrorBoundary from '../ErrorBoundry/ErrorBoundery';
+import BarChartRooms from '../ChartFolder/BarChartRooms';
 // import toast from 'react-hot-toast';
+
 
 export default function Dashboard() {
   const user = useAuth(); // hubi haddii user uu ku jiro user.user haddii loo baahdo
@@ -52,10 +56,10 @@ export default function Dashboard() {
     fetchBookingCount();
   }, []);
 
-
+  
 
   if (loading) return <p>Loading...</p>;
-  // ----------- Fetch Rooms Function -------------
+  
   // useEffect(() => {
   //        if (!user?.id) {
   //            fetchUserRooms()
@@ -114,9 +118,11 @@ export default function Dashboard() {
            <div className="bg-white rounded-xl shadow p-4 flex justify-between items-center">
             <div className='flex flex-col space-y-2'>
               <div className="text-xl text-gray-500">Total Booking</div>
+              <ErrorBoundary>
                <div className="text-3xl font-bold text-gray-600">
                 {bookingCount}
               </div>
+              </ErrorBoundary>
               
             </div>
             <div className='flex items-center justify-center border-2 border-yellow-700 rounded-full w-20 h-20 '>
@@ -139,6 +145,19 @@ export default function Dashboard() {
           </div>
 
         </div>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 m-6 items-center'>
+
+       <ErrorBoundary>
+      <div className="p-4">
+        <BookingChart />
+        {/* Components kale */}
+      </div>
+    </ErrorBoundary>
+    <div className='p-4 h-full'>
+      <BarChartRooms />
+    </div>
+</div>
 {/* 
       {loading ? (
         <p className="text-gray-600">Loading...</p>
