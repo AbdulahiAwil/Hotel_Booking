@@ -81,7 +81,7 @@ if (success) {
         {/* Title and subtitle */}
         <div className='text-center items-center mb-10'> 
         <h1 className='text-3xl font-bold text-white'>Create an Account</h1>
-        <p className='text-gray-600 mt-2'>Join our community and start sharin your ideas</p>
+        <p className='text-gray-600 mt-2'>Join our Admin Dashboard</p>
         </div>
          {/* Form info */}
          <div className='bg-white/70 rounded-lg shadow-md p-8'>
