@@ -16,6 +16,7 @@ import { Link, useParams } from "react-router";
 import { useAuth } from "../contex/AuthContex";
 import { getRoomyById } from "../Lib/room";
 import { createBooking } from "../Lib/booking";
+import toast from "react-hot-toast";
 
 const RoomDetail = () => {
 
@@ -74,6 +75,9 @@ const newBooking = {
 try {
 
   await createBooking(newBooking)
+
+ 
+  toast.success("Booking successfully");
   
 } catch (error) {
 
@@ -82,6 +86,15 @@ try {
 }
 console.log(newBooking);
 }
+
+const resetForm = () => {
+  setName('');
+  setEmail('');
+  setPhone('');
+  setCheckIn('');
+  setCheckOut('');
+};
+
 
 if (loading) {
   return (
@@ -120,16 +133,11 @@ if (!room) {
           {/* Left */}
 
           <div className="w-full h-full px-10 lg:w-[60%]">
-            <h2 className="text-[45px] mb-4">
-              {room.title}
-            </h2>
-            <p className="mb-4">
-              {room.content}
-            </p>
+            <h2 className="text-[45px] mb-4">{room.title}</h2>
+            <p className="mb-4">{room.content}</p>
             {room.featured_image && (
               <img className="w-full mb-8" src={room.featured_image} alt="" />
             )}
-            
 
             <h3 className="text-2xl font-semibold tracking-[1px] mb-2">
               Room Facilitates
@@ -183,90 +191,81 @@ if (!room) {
             <div className="py-8 px-6 bg-yellow-900/20">
               <div className="flex flex-col space-y-4 mb-4">
                 <h3>Your Reservation</h3>
-                <form onSubmit={handleBooking}>
-                <div>
-                 
-                 <input
-                   type="text"
-                   name="name"
-                   value={name}
-                   onChange={(e)=>setName(e.target.value)}
-                   placeholder="Enter Name"
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-               <div>
-                 
-                 <input
-                   type="email"
-                   name="email"
-                   value={email}
-                   onChange={(e)=>setEmail(e.target.value)}
-                   placeholder="Enter Email"
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-               <div>
-                 
-                 <input
-                   type="text"
-                   value={phone}
-                   onChange={(e)=>setPhone(e.target.value)}
-                   placeholder="Enter Phone"
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-                <div>
-                 
+                <form onSubmit={handleBooking} className="space-y-4">
+                  <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter Name"
+                    className="bg-white mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-yellow-600 shadow-sm transition"
+                  />
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter Email"
+                    className="bg-white mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-yellow-600 shadow-sm transition"
+                  />
+
+                  <input
+                    type="text"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Enter Phone"
+                    className="bg-white mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-yellow-600 shadow-sm transition"
+                  />
+
                   <input
                     type="date"
                     value={checkIn}
-                    onChange={(e)=>setCheckIn(e.target.value)}
-                    class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    className="bg-white mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-yellow-600 shadow-sm transition"
                   />
-                </div>
 
-                <div>
-                 
-                 <input
-                   type="date"
-                   value={checkOut}
-                   onChange={(e)=>setCheckOut(e.target.value)}
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-                
-                <div>
-                  
+                  <input
+                    type="date"
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                    className="bg-white mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-yellow-600 shadow-sm transition"
+                  />
+
                   <input
                     type="text"
                     value={room?.title}
                     disabled
-                    class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
+                    className="bg-gray-100 mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 text-gray-500 shadow-inner"
                   />
-                </div>
-                <div>
-                 
-                 <input
-                   type="text"
-                   value={room?.price}
-                   disabled
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-               <div>
-                 
-                 <input
-                   type="text"
-                   value={room?.room_type}
-                   disabled
-                   class=" bg-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700"
-                 />
-               </div>
-                {/* btn */}
-                <div>
-                  <button type="submit" className="bg-yellow-700 hover:bg-yellow-800 text-xl text-white mt-1 block w-full rounded border border-gray-300 px-2 py-4 focus:ring focus:ring-yellow-700">Booking</button>
-                </div>
+
+                  <input
+                    type="text"
+                    value={room?.price}
+                    disabled
+                    className="bg-gray-100 mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 text-gray-500 shadow-inner"
+                  />
+
+                  <input
+                    type="text"
+                    value={room?.room_type}
+                    disabled
+                    className="bg-gray-100 mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 text-gray-500 shadow-inner"
+                  />
+
+                  <button
+                    type="submit"
+                    className="bg-yellow-700 hover:bg-yellow-800 text-xl text-white font-semibold mt-1 w-full rounded-2xl px-4 py-4 shadow-lg transition duration-300"
+                  >
+                    Book Now
+                  </button>
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="bg-gray-400 hover:bg-gray-500 text-white font-semibold mt-2 w-full rounded-2xl px-4 py-3 shadow-lg transition duration-300"
+                  >
+                    Reset Form
+                  </button>
                 </form>
               </div>
             </div>

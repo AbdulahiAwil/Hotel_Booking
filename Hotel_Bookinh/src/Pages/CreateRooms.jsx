@@ -280,6 +280,28 @@ const handleChangeSelectTypes = (e) => {
   console.log('Room type selected:', e.target.value);
 };
 
+const handleReset = () => {
+  setTitle('');
+  setContent('');
+  setSelectedTypes('');
+  setPrice('');
+  setFeaturedImageUrl('');
+  setSelectedImage(null);
+  setImagePath('');
+  setIsPublished(false);
+  setError(null);
+  
+  if (fileInputRef.current) {
+    fileInputRef.current.value = '';
+  }
+
+  toast.success('Form reset successfully');
+
+  // Haddii editMode uu furan yahay, dib ugu noqo page-ka create
+  if (isEditMode) {
+    navigate('/create');
+  }
+};
 
 
 
@@ -396,7 +418,7 @@ const handleChangeSelectTypes = (e) => {
           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
             {isEditMode ? "Update and Publish" : "Save and Publish"}
           </button>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+          <button onClick={handleReset} class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
             Reset
           </button>
         </div>

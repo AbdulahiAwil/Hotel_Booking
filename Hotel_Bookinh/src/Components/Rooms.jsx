@@ -48,6 +48,14 @@ function Rooms() {
 
   return (
     <section className="py-24">
+      <div className="text-center mb-12">
+        <p className="text-sm tracking-widest text-gray-500 uppercase">
+          Hotel & Spa Adina
+        </p>
+        <h2 className="text-5xl font-serif font-light text-gray-900 mt-2">
+          Rooms & Suites
+        </h2>
+      </div>
       <div className="container mx-auto lg:px-0">
         <div className='grid grid-cols-1 max-w-sm mx-auto gap-[30px] lg:grid-cols-3 lg:max-w-none lg:mx-0 '>
           {featuredRooms.map((room) => (

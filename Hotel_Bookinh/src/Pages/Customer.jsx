@@ -137,7 +137,16 @@ const [searchRoomName, setSearchRoomName] = useState('');
     setBooking(filtered);
   };
   
-  
+  const handleReset = () => {
+  fetchCustomerBooking();
+  setSearchName('');
+  setSearchEmail('');
+  setSearchPhone('');
+  setSearchCheckIn('');
+  setSearchCheckOut('');
+  setSearchRoomName('');
+};
+
   
 
   const formatDate = (dateString) => {
@@ -216,7 +225,7 @@ const [searchRoomName, setSearchRoomName] = useState('');
       </div>
       <div className="flex items-center gap-4 p-4">
         <button type='submit' className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">Search</button>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Reset</button>
+        <button onClick={handleReset} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Reset</button>
       </div>
       </form>
       
