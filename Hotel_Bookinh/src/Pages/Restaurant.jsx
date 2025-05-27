@@ -16,7 +16,7 @@ function Restaurant() {
               {/* Overlay */}
               <div className="absolute w-full h-full flex justify-center items-center">
                 <h1 className="text-6xl text-white text-center">
-                   Rooms
+                   Restaurant
                 </h1>
               </div>
               {/* Title */}
