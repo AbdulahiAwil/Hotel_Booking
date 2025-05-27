@@ -93,8 +93,8 @@ This is a web-based hotel booking system that allows users to browse available r
 
 - 💳 Payment integration (Stripe / PayPal)
 - 📧 Email and SMS notifications
-- 📱 Mobile-responsive enhancements
-- ❌ Booking cancellation & refund system
+
+
 
 ---
 
