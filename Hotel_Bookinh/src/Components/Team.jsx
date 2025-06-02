@@ -3,54 +3,59 @@ import { teamData } from '../data'
 import { motion } from 'framer-motion'
 import { fadeIn } from '../Variants'
 
-
 const Team = () => {
-    const {
-        pretitle,
-        title,
-        sub1,
-        sub2,
-        name,
-        occupation,
-        signatureImg,
-        chefImg
+  const {
+    pretitle,
+    title,
+    sub1,
+    sub2,
+    name,
+    occupation,
+    signatureImg,
+    chefImg
+  } = teamData;
 
-    } = teamData
   return (
-    <section className='relative top-60 mb-50 z-10 lg:top[480px] min-h-[720px]'>
-        <div className='container mx-auto mb-[100px]'>
-            {/* wrapper text and image */}
-            <div className='flex flex-col lg:flex-row lg:gap-x-[120px] items-center lg:items-start'>
-                <motion.div 
-                    variants={fadeIn('up', 'tween',0.6,1.6)}
-                    initial='hidden'
-                    whileInView={'show'}
-                 className='flex-1 text-center lg:text-left lg:pt-16'>
-                    <div className='font-bold text-base uppercase tracking-[-0.04em] text-yellow-800 mb-2'>{pretitle}</div>
-                    <h2 className='font-black text-[46px] mb-4 leading-[1.1] capitalize'>{title}</h2>
-                    <p className='mb-10'>{sub1}</p>
-                    <p>{sub2}</p>
-                    <div className='my-[26px]'>
-                        <div className='text-2xl capitalize font-semibold text-yellow-700'>{name}</div>
-                        <div className='text-[15px] capitalize font-semibold text-gray/70'>{occupation}</div>
-                    </div>
-                    <div className='flex justify-center lg:justify-start mb-6 lg:mb-0'>
-                        <img src={signatureImg} alt="" />
-                    </div>
-                </motion.div>
-                {/* image */}
-                <motion.div
-                    variants={fadeIn('up', 'tween',0.7,1.6)}
-                    initial='hidden'
-                    whileInView={'show'}
-
-                 className='flex-1'>
-                    <img src={chefImg} alt="" />
-                </motion.div>
+    <section className="relative z-10 py-20 lg:py-32 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-x-16">
+          {/* Text Side */}
+          <motion.div
+            variants={fadeIn('up', 'tween', 0.6, 1.6)}
+            initial="hidden"
+            whileInView="show"
+            className="flex-1 text-center lg:text-left mt-10 lg:mt-0"
+          >
+            <div className="text-yellow-800 uppercase text-sm font-bold tracking-wide mb-2">{pretitle}</div>
+            <h2 className="text-3xl sm:text-4xl md:text-[46px] font-black mb-4 leading-tight capitalize">{title}</h2>
+            <p className="text-gray-700 mb-6">{sub1}</p>
+            <p className="text-gray-600 mb-6">{sub2}</p>
+            <div className="mb-6">
+              <div className="text-xl font-semibold text-yellow-700">{name}</div>
+              <div className="text-sm text-gray-500 uppercase tracking-wide">{occupation}</div>
             </div>
+            <div className="flex justify-center lg:justify-start">
+              <img src={signatureImg} alt="Signature" className="h-12 w-auto" />
+            </div>
+          </motion.div>
+
+          {/* Image Side */}
+          <motion.div
+            variants={fadeIn('up', 'tween', 0.7, 1.6)}
+            initial="hidden"
+            whileInView="show"
+            className="flex-1"
+          >
+            <img
+              src={chefImg}
+              alt="Chef"
+              className="w-full max-w-[450px] mx-auto lg:mx-0"
+            />
+          </motion.div>
         </div>
+      </div>
     </section>
-  )
+  );
 }
 
-export default Team
+export default Team;

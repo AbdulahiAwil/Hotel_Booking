@@ -18,6 +18,7 @@ import CreateRooms from "./Pages/CreateRooms"
 import { Toaster } from 'react-hot-toast';
 import RoomManagePage from "./Pages/RoomManagePage"
 import Room from "./Pages/Room"
+import ManageAdmins from "./Pages/ManageAdmins"
 
 
 
@@ -98,8 +99,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/settings" element={<Settings />} /> */}
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <ManageAdmins />
+              </ProtectedRoute>
+            }
+          />
+         
         </Route>
+
+        
       </Routes>
 
       <Toaster />

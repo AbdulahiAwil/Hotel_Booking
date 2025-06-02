@@ -159,10 +159,10 @@ const RoomManagePage = () => {
               </p>
               <Link
                 to="/editor"
-                className="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-xl shadow-md hover:bg-orange-700 transition-colors duration-200"
+                className="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-xl shadow-md hover:bg-yellow-700 transition-colors duration-200"
               >
                 <FiPlus className="mr-2" />
-                Create Your First Article
+                Create Your First Room Blog
               </Link>
             </div>
           ) : (

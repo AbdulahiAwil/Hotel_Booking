@@ -1,37 +1,55 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { aboutData } from '../data'
-import { plateVariants, staggerContainer, fadeIn } from '../Variants'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { aboutData } from '../data';
+import { plateVariants, staggerContainer, fadeIn } from '../Variants';
+
 const About = () => {
-    const { pretitle, title, subtitle, btnText, image} = aboutData
+  const { pretitle, title, subtitle, btnText, image } = aboutData;
+
   return (
-    <section className='min-h-[620px] min-w-screen'>
-        <div className='container mx-auto min-h-[620px]'>
-            {/* text-image wrapper */}
-            <motion.div
-                variants={staggerContainer}
-                initial='hidden'
-                whileInView={'show'}
-                viewport={{once: false, amount:0.6} }
-                className='min-h-[620px] flex flex-col lg:flex-row items-center'>
-                {/* text */}
-                <motion.div variants={fadeIn('right', 'tween', 0.2, 1.8)} className='flex-1 text-center lg:text-left'>
-                    <div className='font-bold text-base uppercase tracking-[-0.04em] text-yellow-800 mb-2'>{pretitle}</div>
-                    <h2 className='font-black text-[46px] mb-4 leading-[1.1] capitalize'>{title}</h2>
-                    <p className='mb-8 text-gray-600 max-w-[560px]'>{subtitle}</p>
-                    <button className='h-14 rounded-full bg-yellow-700 px-[42px] text-white text-base font-secondary font-semibold tracking-[0.02em] outline-none hover:bg-yellow-600-hover transition-all duration-300 flex justify-center items-center capitalize mx-auto lg:mx-0'>
-                        {btnText}
-                    </button>
-                </motion.div>
-                {/* image */}
-                <motion.div variants={plateVariants} className='-mb-[300px] -mr-[186px] z-10'>
-                    <img src={image} alt="" />
-                </motion.div>
-            </motion.div>
-        </div>
+    <section className="w-full py-12 lg:py-20 bg-white">
+      <div className="container mx-auto px-4 md:px-8">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView={'show'}
+          viewport={{ once: false, amount: 0.6 }}
+          className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-20"
+        >
+          {/* Text */}
+          <motion.div
+            variants={fadeIn('right', 'tween', 0.2, 1.8)}
+            className="flex-1 text-center lg:text-left"
+          >
+            <div className="text-yellow-800 text-base font-bold uppercase tracking-wide mb-2">
+              {pretitle}
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4 capitalize">
+              {title}
+            </h2>
+            <p className="text-gray-600 max-w-xl mx-auto lg:mx-0 mb-8 text-base sm:text-lg">
+              {subtitle}
+            </p>
+            <button className="h-14 px-10 bg-yellow-700 text-white rounded-full font-semibold tracking-wide hover:bg-yellow-600 transition-all duration-300 capitalize">
+              {btnText}
+            </button>
+          </motion.div>
 
+          {/* Image */}
+          <motion.div
+            variants={plateVariants}
+            className="flex-1 flex justify-center lg:justify-end"
+          >
+            <img
+              src={image}
+              alt="About Image"
+              className="w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] xl:w-[500px] object-contain"
+            />
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;

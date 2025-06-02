@@ -140,7 +140,30 @@ export async  function getUserProfile(userId) {
       return data
 }
 
+export async function getAllUsers() {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*');
 
+  if (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function deleteUser(userId) {
+  const { error } = await supabase
+    .from('users')
+    .delete()
+    .eq('id', userId);
+
+  if (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
+}
 
 export const getUserCount = async () => {
   try {
