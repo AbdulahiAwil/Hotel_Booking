@@ -1,7 +1,7 @@
 import React, { useEffect,  useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAuth } from '../contex/AuthContex'
-import { uploadImage } from '../lib/storage'
+import { uploadImage } from '../Lib/storage'
 import { GiArchiveRegister } from "react-icons/gi";
 import { Link, useNavigate, useParams } from 'react-router';
 import { createRoom, getRoomyById, updateRoom } from '../Lib/room'
