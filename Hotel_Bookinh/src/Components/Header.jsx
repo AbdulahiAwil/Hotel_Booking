@@ -23,123 +23,152 @@ function Header() {
         })
     }, [])
   return (
-    <header
-    className={`${header ? 'bg-white py-6 shadow-lg' : 'bg-transparent py-8 '} fixed z-50 w-full transition-all duration-500`}
-    >
-        <div className='container mx-auto flex flex-row justify-between px-6 items-center gap-y-6 lg:flex-row lg:justify-between lg:gap-y-0'>
-        {/* Left */}
-        <div className='flex items-center justify-between w-full'>
-            {/* Logo */}
-            <div className='flex-shrink-0 flex items-center'>
-            <a href="">
-                {header ? (
-                    <img className='w-[100px] lg:w-[160px]' src={LogoDark} />
-                ) : (
-                    <img className='w-[100px] lg:w-[160px]' src={LogoWhite} />
-                )}
-            </a>
-            </div>
-            {/* Navbar */}
-            
-                <nav className={`${header ? 'text-black' : 'text-white'} hidden sm:ml-40 sm:flex sm:space-x-8`}>
-                    <Link to={"/"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Home</Link>
-                    <Link to={"/room"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Rooms</Link>
-                    <Link to={"/restaurant"} className='hover:text-yellow-700 inline-flex px-1 pt-1 items-center border-b-2 border-transparent text-sm font-medium'>Restaurant</Link>
-                </nav>
-        </div>
-                {/* Right */}
-        
-        <div className={`${header ? 'text-black' : 'text-white'} flex space-x-8 items-center`}>
-          {isLoggedIn && (
-            <>
-            <div>
-                {/* <span  className="text-sm">
-                    Hello, {profile?.username}
-                </span> */}
-            </div>
-            <div className='relative'>
-                <button className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500" 
-                onMouseEnter={() => setDropdownOpen(true)}
-                >
-                     {avatar_url ? (
-                      <img className="w-8 h-8 rounded-full" src={avatar_url} />
-                    ) : (
-                      <FaUserAlt className="text-gray-600" />
-                    )}
-                </button>
-                {dropdownOpen && (
-                    <div
-                      className="absolute right-0 w-48 bg-white mt-1 rounded-md shadow-lg z-10"
-                      onMouseLeave={() => setDropdownOpen(false)}
-                    >
-                      <div></div>
-                      <Link
-                        to={"dashboard"}
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      >
-                        Hello, {profile?.username}
-                      </Link>
-                     
-                      <Link
-                        to={"profile"}
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      >
-                        Your Profile
-                      </Link>
-                     
-                      <button
-                        onClick={() => logout()}
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      >
-                        Signout
-                      </button>
-                    </div>
-                  )}
-            </div>
-            
-            </>
+   <header
+  className={`${
+    header ? 'bg-white py-6 shadow-lg' : 'bg-transparent py-8'
+  } fixed z-50 w-full transition-all duration-500`}
+>
+  <div className="container mx-auto flex items-center justify-between flex-wrap px-4 sm:px-6 lg:px-8">
+    {/* Left: Logo + Navbar */}
+    <div className="flex items-center justify-between w-full lg:w-auto">
+      {/* Logo */}
+      <a href="/" className="flex-shrink-0">
+        <img
+          src={header ? LogoDark : LogoWhite}
+          alt="Logo"
+          className="w-[100px] sm:w-[120px] lg:w-[160px]"
+        />
+      </a>
 
+      {/* Hamburger for mobile */}
+      <div className={`sm:hidden ${header ? 'text-black' : 'text-white'}`}>
+        <button
+          className="p-2 focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? (
+            <IoMdClose className="w-6 h-6" />
+          ) : (
+            <CiMenuBurger className="w-6 h-6" />
           )}
-            
+        </button>
+      </div>
+    </div>
 
-        </div>
-                 
-        <div className={` ${header ? 'text-black' : 'text-white'} -mr-2 flex items-center sm:hidden`}>
-            <button
-              className="inline-flex items-center justify-center p-2 rounded-md"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+    {/* Navbar for large screens */}
+    <nav
+      className={`${
+        header ? 'text-black' : 'text-white'
+      } hidden sm:flex space-x-6 lg:space-x-10`}
+    >
+      <Link to="/" className="hover:text-yellow-700 text-sm font-medium">
+        Home
+      </Link>
+      <Link to="/room" className="hover:text-yellow-700 text-sm font-medium">
+        Rooms
+      </Link>
+      <Link
+        to="/restaurant"
+        className="hover:text-yellow-700 text-sm font-medium"
+      >
+        Restaurant
+      </Link>
+      <Link
+        to="/about"
+        className="hover:text-yellow-700 text-sm font-medium"
+      >
+        About Us
+      </Link>
+      <Link
+        to="/contact"
+        className="hover:text-yellow-700 text-sm font-medium"
+      >
+        Contact Us
+      </Link>
+    </nav>
+
+    {/* Right: Avatar or Login */}
+    <div
+      className={`${
+        header ? 'text-black' : 'text-white'
+      } hidden sm:flex items-center space-x-6`}
+    >
+      {isLoggedIn && (
+        <div className="relative">
+          <button
+            onMouseEnter={() => setDropdownOpen(true)}
+            className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"
+          >
+            {avatar_url ? (
+              <img src={avatar_url} alt="avatar" className="rounded-full" />
+            ) : (
+              <FaUserAlt className="text-gray-600" />
+            )}
+          </button>
+          {dropdownOpen && (
+            <div
+              className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-50"
+              onMouseLeave={() => setDropdownOpen(false)}
             >
-              {isMenuOpen ? (
-                <IoMdClose className="block w-6 h-6" />
-              ) : (
-                <CiMenuBurger className="block w-6 h-6" />
-              )}
-            </button>
-          </div>
-
-        </div>
-
-        {isMenuOpen && (
-          <div className='sm:hidden py-4'>
-            <div>
-            <div className={` ${header ? 'text-black bg-white/90 ' : 'text-white bg-yellow-700/80'} pt-2 pb-3 space-y-1`}>
-            <Link
-                to="/"
-                className="block pl-3 pr-4 py-2 border-l-4 border-yellow-700 text-base font-medium"
+              <Link
+                to="/dashboard"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
-                Home
+                Hello, {profile?.username}
               </Link>
               <Link
-                to="articles"
-                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium hover:border-yellow-800/5 hover:text-gray-800"
+                to="/profile"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
-                Rooms
+                Your Profile
               </Link>
+              <button
+                onClick={logout}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Sign out
+              </button>
             </div>
-            </div>
-          </div>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Mobile Menu */}
+  {isMenuOpen && (
+    <div
+      className={`sm:hidden pt-4 ${
+        header ? 'bg-white text-black' : 'bg-yellow-700/90 text-white'
+      }`}
+    >
+      <div className="space-y-2 px-4 pb-4">
+        <Link to="/" className="block py-2 border-b border-gray-200">
+          Home
+        </Link>
+        <Link to="/room" className="block py-2 border-b border-gray-200">
+          Rooms
+        </Link>
+        <Link to="/restaurant" className="block py-2 border-b border-gray-200">
+          Restaurant
+        </Link>
+        <Link to="/about" className="block py-2 border-b border-gray-200">
+          About Us
+        </Link>
+        <Link to="/contact" className="block py-2 border-b border-gray-200">
+          Contact Us
+        </Link>
+
+        {isLoggedIn && (
+           <Link to="/dashboard" className="block py-2 border-b border-gray-200">
+            Admin Dashboard
+        </Link>
         )}
-    </header>
+      </div>
+    </div>
+  )}
+</header>
+
   )
 }
 

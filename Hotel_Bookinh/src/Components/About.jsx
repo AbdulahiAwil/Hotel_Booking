@@ -1,52 +1,43 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { aboutData } from '../data';
-import { plateVariants, staggerContainer, fadeIn } from '../Variants';
 
 const About = () => {
   const { pretitle, title, subtitle, btnText, image } = aboutData;
 
   return (
-    <section className="w-full py-12 lg:py-20 bg-white">
-      <div className="container mx-auto px-4 md:px-8">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView={'show'}
-          viewport={{ once: false, amount: 0.6 }}
-          className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-20"
-        >
+    <section className="w-full bg-white py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20"
+>
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col-reverse lg:flex-row items-center gap-y-10 lg:gap-x-20">
+          
           {/* Text */}
-          <motion.div
-            variants={fadeIn('right', 'tween', 0.2, 1.8)}
-            className="flex-1 text-center lg:text-left"
-          >
-            <div className="text-yellow-800 text-base font-bold uppercase tracking-wide mb-2">
+          <div className="w-full lg:w-1/2 text-center lg:text-left">
+            <div className="text-yellow-800 text-sm sm:text-base font-bold uppercase tracking-widest mb-2">
               {pretitle}
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4 capitalize">
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-gray-900 capitalize mb-4">
               {title}
             </h2>
-            <p className="text-gray-600 max-w-xl mx-auto lg:mx-0 mb-8 text-base sm:text-lg">
+
+            <p className="text-gray-600 text-base sm:text-lg lg:text-xl max-w-xl mx-auto lg:mx-0 mb-6">
               {subtitle}
             </p>
-            <button className="h-14 px-10 bg-yellow-700 text-white rounded-full font-semibold tracking-wide hover:bg-yellow-600 transition-all duration-300 capitalize">
+
+            <button className="h-12 sm:h-14 px-6 sm:px-10 bg-yellow-700 text-white rounded-full font-semibold tracking-wide hover:bg-yellow-600 transition duration-300 capitalize">
               {btnText}
             </button>
-          </motion.div>
+          </div>
 
           {/* Image */}
-          <motion.div
-            variants={plateVariants}
-            className="flex-1 flex justify-center lg:justify-end"
-          >
+          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
             <img
               src={image}
-              alt="About Image"
-              className="w-[260px] sm:w-[320px] md:w-[400px] lg:w-[460px] xl:w-[500px] object-contain"
+              alt="About"
+              className="w-[220px] sm:w-[280px] md:w-[340px] lg:w-[400px] xl:w-[460px] 2xl:w-[500px] object-contain"
             />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

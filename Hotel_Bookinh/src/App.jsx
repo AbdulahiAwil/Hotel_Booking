@@ -19,6 +19,8 @@ import { Toaster } from 'react-hot-toast';
 import RoomManagePage from "./Pages/RoomManagePage"
 import Room from "./Pages/Room"
 import ManageAdmins from "./Pages/ManageAdmins"
+import AboutUs from "./Pages/AboutUs"
+import ContactUs from "./Pages/ContactUS.JSX"
 
 
 
@@ -32,6 +34,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/room" element={<Room />} />
           <Route path="/restaurant" element={<Restaurant />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/room/:id" element={<RoomDetail />} />
         </Route>
 

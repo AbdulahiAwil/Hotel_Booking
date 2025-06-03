@@ -107,7 +107,7 @@ if (loading) {
 if (!room) {
   return (
     <div className="text-center py-20">
-      <h2 className="text-2xl font-bold text-gray-800">Article not found</h2>
+      <h2 className="text-2xl font-bold text-gray-800">Booking post not found</h2>
       <p className="mt-2 text-gray-600">The room you're looking for doesn't exist or has been removed.</p>
       <Link to="/create" className="mt-4 inline-block text-blue-600 hover:underline">
         Browse all rooms

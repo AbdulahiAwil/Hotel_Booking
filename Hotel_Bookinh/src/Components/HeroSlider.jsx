@@ -43,27 +43,39 @@ function HeroSlider() {
     className='heroSlider h-[600px] lg:h-[860px]'>
         {slides.map((slide, index) => {
             const { title, bg, btnText } = slide;
-            return(
-            <SwiperSlide className='h-full bg-pink-400 relative flex justify-center items-center' key={index}>
-
-                
-                    
-                
-                <div className='absolute top-0 w-full h-full'>
-                    <img src={bg} alt="" className='object-cover w-full h-full'/>
+            return (
+              <SwiperSlide
+                className="h-full bg-pink-400 relative flex justify-center items-center"
+                key={index}
+              >
+                {/* Background Image Layer */}
+                <div className="absolute top-0 left-0 w-full h-full -z-10">
+                  <img
+                    src={bg}
+                    alt="Background"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
-                <div className='absolute w-full h-full flex flex-col justify-center items-center bg-black/70'>
-                <div className='text-white text-center uppercase tracking-[6px] mb-5'>Just Enjoy and relax</div>
-                <h1 className='w-[800px] text-[32px] font-medium text-white text-center uppercase tracking-[2px] max-w-[920px] lg:text-[68px] leading-tight mb-6'>
+                {/* Overlay Content */}
+                <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex flex-col justify-center items-center px-4 text-center">
+                  {/* Small Text */}
+                  <div className="text-white uppercase tracking-[3px] sm:tracking-[4px] md:tracking-[6px] text-sm sm:text-base mb-4">
+                    Just Enjoy and Relax
+                  </div>
+
+                  {/* Title */}
+                  <h1 className="text-white uppercase font-semibold leading-tight tracking-[1px] sm:tracking-[2px] max-w-[90%] sm:max-w-[600px] md:max-w-[720px] lg:max-w-[920px] text-2xl sm:text-4xl md:text-5xl lg:text-[68px] mb-6">
                     {title}
-                </h1>
-                <button className='text-[15px] tracking-[3px] upparcase text-white transition-all px-8 py-4 flex justify-center items-center bg-yellow-700 border-none cursor-pointer hover:bg-yellow-900'>{btnText}</button>
-                </div>
-               
+                  </h1>
 
-            </SwiperSlide>
-            )
+                  {/* Button */}
+                  <button className="bg-yellow-700 hover:bg-yellow-900 transition-colors duration-300 text-white uppercase tracking-widest text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-md">
+                    {btnText}
+                  </button>
+                </div>
+              </SwiperSlide>
+            );
         })}
     </Swiper>
   )

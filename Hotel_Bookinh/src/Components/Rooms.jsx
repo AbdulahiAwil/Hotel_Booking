@@ -47,23 +47,25 @@ function Rooms() {
 
 
   return (
-    <section className="py-24">
-      <div className="text-center mb-12">
-        <p className="text-sm tracking-widest text-gray-500 uppercase">
-          Hotel & Spa Adina
-        </p>
-        <h2 className="text-5xl font-serif font-light text-gray-900 mt-2">
-          Rooms & Suites
-        </h2>
-      </div>
-      <div className="container mx-auto lg:px-0">
-        <div className='grid grid-cols-1 max-w-sm mx-auto gap-[30px] lg:grid-cols-3 lg:max-w-none lg:mx-0 '>
-          {featuredRooms.map((room) => (
-            <RoomCard room={room} />
-          ))}
-        </div>
-      </div>
-    </section>
+   <section className="py-16 sm:py-20 md:py-24">
+  <div className="text-center mb-12 px-4 sm:px-6 md:px-0">
+    <p className="text-xs sm:text-sm tracking-widest text-gray-500 uppercase">
+      Hotel & Spa Adina
+    </p>
+    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-light text-gray-900 mt-2">
+      Rooms & Suites
+    </h2>
+  </div>
+
+  <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-10">
+      {featuredRooms.map((room) => (
+        <RoomCard key={room.id} room={room} />
+      ))}
+    </div>
+  </div>
+</section>
+
   );
 }
 
