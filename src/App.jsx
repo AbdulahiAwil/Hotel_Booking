@@ -20,7 +20,7 @@ import RoomManagePage from "./Pages/RoomManagePage"
 import Room from "./Pages/Room"
 import ManageAdmins from "./Pages/ManageAdmins"
 import AboutUs from "./Pages/AboutUs"
-import ContactUs from "./Pages/ContactUS.JSX"
+import ContactUs from "./Pages/ContactUs"
 
 
 
