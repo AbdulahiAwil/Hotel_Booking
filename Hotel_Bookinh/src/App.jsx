@@ -37,11 +37,12 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/room/:id" element={<RoomDetail />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Route>
 
         {/* ✅ Layout aan lahayn header/footer */}
-        <Route path="signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+       
         <Route
           path="/profile"
           element={
@@ -112,6 +113,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
          
         </Route>
 

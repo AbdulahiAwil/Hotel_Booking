@@ -134,6 +134,22 @@ function HeaderDash() {
               <FaDoorOpen /> <span>Create Room</span>
             </Link>
             </div>
+            <div className='hover:bg-yellow-700 py-2 pl-1'>
+            <Link
+              to="/admin"
+              className="flex items-center w-full space-x-2 text-gray-100 px-2"
+            >
+              <FaUserAlt /> <span>Manage Admins</span>
+            </Link>
+            </div>
+            <div className='hover:bg-yellow-700 py-2 pl-1'>
+            <Link
+              to="/profile"
+              className="flex items-center w-full space-x-2 text-gray-100 px-2"
+            >
+              <FaUserAlt /> <span>Profile</span>
+            </Link>
+            </div>
            
           </nav>
         </div>
