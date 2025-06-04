@@ -21,13 +21,16 @@ This is a web-based hotel booking system that allows users to browse available r
 - 🏠 **Home Page** – View hotel intro, highlights, and quick links.
 - 🛏️ **Room Details Page** – Browse rooms, see prices, photos, and book.
 - 🍽️ **Restaurant Page** – View menu items, reserve a table or order room service.
+- 🏨 **Rooms Page** - Explore all room categories with filters for availability and preferences.
+- ℹ️ **About Page**  – Learn more about the hotel’s history, mission, and services offered.
+- 📞 **Contact Page**  – Reach out via form, phone, or social media; includes location and map.
 
 ### 🔐 Admin Dashboard
-- 📊 Overview of bookings and revenues.
+- 📊 Admin Dashboard
 - 🧾 Manage room details (add/edit/delete).
 - 📅 Manage bookings and availability.
 - 👤 Manage profile.
-- 🍴 Manage restaurant menu and reservations.
+- 👤 Manage Admin 
 
 ---
 
@@ -35,8 +38,6 @@ This is a web-based hotel booking system that allows users to browse available r
 
 **Frontend:**
 - React
-- HTML5 / CSS3
-- JavaScript
 - TailwindCSS or Bootstrap
 
 **Backend:**
@@ -47,7 +48,7 @@ This is a web-based hotel booking system that allows users to browse available r
 - PostgreSQL / Supabase
 
 **Authentication:**
-- JWT / Session-based
+- JWT-based authentication
 
 **Others:**
 - Axios
@@ -58,34 +59,40 @@ This is a web-based hotel booking system that allows users to browse available r
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](image-4.png)
-
-### Room Details
-![Room Details](image.png)
-
-### Restaurant Page
-![Restaurant Page](image-1.png)
+![Home Page](./src/assets/ReadMe_images/homePage%20(2).png)
 
 ### Rooms Page
-![Rooms Page](image-2.png)
+![Rooms Page](./src/assets/ReadMe_images/roomsPage.png)
+
+### Room Details
+![Room Details](./src/assets/ReadMe_images/roomDetails.png)
+
+### Restaurant Page
+![Restaurant Page](./src/assets/ReadMe_images/restaurantPage.png)
 
 ### Sign Up Page
-![Sign Up](image-3.png)
+![Sign Up](./src/assets/ReadMe_images/signupPage.png)
 
 ### Sign In Page
-![Sign In](image-5.png)
+![Sign In](./src/assets/ReadMe_images/signinPage.png)
 
 ### Admin Dashboard
-![Admin Dashboard](image-6.png)
+![Admin Dashboard](./src/assets/ReadMe_images/dashboard.png)
 
 ### Booking List
-![Booking List](image-7.png)
+![Booking List](./src/assets/ReadMe_images/customerPage.png)
 
 ### Manage Booking
-![Manage Booking](image-8.png)
+![Manage Booking](./src/assets/ReadMe_images/roomPage.png)
 
 ### Create Room Blogs
-![Create Room Blogs](image-9.png)
+![Create Room Blogs](./src/assets/ReadMe_images/createRoom.png)
+
+### Manage Admin
+![Manage Admin](./src/assets/ReadMe_images/adminPage.png)
+
+### Profile Page
+![Profile Page](./src/assets/ReadMe_images/createRoom.png)
 
 ---
 
